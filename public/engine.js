@@ -2,8 +2,22 @@ import {levelPlan} from './campaign.js';
 export const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function levelConfig(level){
   const p=levelPlan(level),n=p.id;
-  return {duration:p.duration,spawn:Math.max(.65,1.5-n*.0085),speed:38+n*.5,hp:2+Math.floor(n/10),basePower:p.startingPower,powerCap:p.powerCap,boss:24+n*4};
+  return {duration:p.duration,spawn:Math.max(.65,1.5-n*.0085),speed:38+n*.58,hp:2+n*.15+Math.max(0,n-10)*.1,basePower:p.startingPower,powerCap:p.powerCap,boss:24+n*8+Math.max(0,n-10)*5};
 }
+// Large volleys retain every ball, but the cannon needs longer to reload.
+export function shotInterval(state){return (.17+Math.max(0,state.power-4)*.0028)*(state.rapid?.76:1);}
+export function attackProfile(level,enemy){
+  if(!enemy.boss&&!['drone','base'].includes(enemy.kind))return null;
+  if(enemy.boss&&level<10)return null;
+  const tier=Math.floor((level-1)/20);
+  return {interval:Math.max(1.65,3.1-tier*.24),warning:.8,count:enemy.boss?(tier>=2?3:1):enemy.kind==='base'&&tier>=3?3:1,speed:155+tier*12,spread:.19};
+}
+// Normalize to the same world units on a phone and a wide desktop canvas.
+export function hostileSalvo(origin,target,width,height,profile){
+  const sx=width/390,sy=height/550,angle=Math.atan2((target.y-origin.y)/sy,(target.x-origin.x)/sx);
+  return Array.from({length:profile.count},(_,i)=>{const a=angle+(i-(profile.count-1)/2)*profile.spread;return {x:origin.x,y:origin.y,previousX:origin.x,previousY:origin.y,vx:Math.cos(a)*profile.speed*sx,vy:Math.sin(a)*profile.speed*sy};});
+}
+export function slowedSpeed(enemy){return enemy.slow>0?((enemy.boss||enemy.kind==='tank')?.72:.45):1;}
 export function gatePower(power,kind,cap=48){return Math.min(cap,kind==='multiply'?power*2:power+2);}
 export function freshState(level){const plan=levelPlan(level);return {level,x:.5,power:levelConfig(level).basePower,powerCap:levelConfig(level).powerCap,laneMin:levelPlan(level).roadStyle==='narrow'?.18:.08,laneMax:levelPlan(level).roadStyle==='narrow'?.82:.92,lives:3,time:0,score:0,bullets:[],enemies:[],gates:[],particles:[],rings:[],labels:[],lights:[],debris:[],combo:0,comboTime:0,spawn:3,shot:0,gate:0,nextGate:0,kills:0,blocks:0,blockSpawn:0,shake:0,flash:0,shield:0,rapid:false,blast:false,routeTimer:2,routeCount:0,waveIndex:0,obstacleIndex:0,cachesOpened:0,bossesDown:0,bossIndex:0,rescued:0,minesDefused:0,basesDestroyed:0,mutationsChosen:0,path:null,civilianIndex:0,mineIndex:0,droneIndex:0,baseIndex:0,pathIndex:0,choiceIndex:0,pickups:[],hostileShots:[],pierce:false,bounce:false,spread:false,freeze:false,invincible:0,bossesTotal:plan.bossSchedule.reduce((n,b)=>n+(b.kind==='swarm'?3:1),0),fork:null,bossDefeated:false,bossSpawned:false};}
 
@@ -49,7 +63,7 @@ export function resizeWorld(state,oldW,oldH,newW,newH){
   const xScale=newW/oldW,yScale=newH/oldH;
   if(state.fork){state.fork.top*=yScale;state.fork.bottom*=yScale;}
   for(const collection of [state.enemies,state.bullets,state.gates,state.particles,state.rings,state.labels,state.lights,state.debris,state.pickups,state.hostileShots]){
-    for(const item of collection||[]){item.x*=xScale;item.y*=yScale;if(typeof item.vx==='number')item.vx*=xScale;if(typeof item.vy==='number')item.vy*=yScale;if(item.w)item.w*=xScale;if(item.homeX!==undefined)item.homeX*=xScale;if(item.previousY!==undefined)item.previousY*=yScale;if(item.previousX!==undefined)item.previousX*=xScale;}
+    for(const item of collection||[]){item.x*=xScale;item.y*=yScale;if(typeof item.vx==='number')item.vx*=xScale;if(typeof item.vy==='number')item.vy*=yScale;if(item.w)item.w*=xScale;if(item.homeX!==undefined)item.homeX*=xScale;if(item.previousY!==undefined)item.previousY*=yScale;if(item.previousX!==undefined)item.previousX*=xScale;if(item.attackTarget){item.attackTarget.x*=xScale;item.attackTarget.y*=yScale;}}
   }
 }
 
@@ -67,7 +81,7 @@ export const MUTATIONS=[
   {id:'pierce',name:'Perforación',description:'Cada pelotita puede atravesar hasta 3 enemigos.',color:'#97e7ff'},
   {id:'bounce',name:'Rebote',description:'Los disparos viajan en diagonal y rebotan en los bordes.',color:'#ffe18e'},
   {id:'spread',name:'Dispersión',description:'La misma cantidad de pelotitas cubre una franja más ancha.',color:'#e3adff'},
-  {id:'freeze',name:'Hielo',description:'Los impactos frenan al enemigo durante 1,5 segundos.',color:'#adf9f4'},
+  {id:'freeze',name:'Hielo',description:'Frena durante 1,5 segundos. Menor efecto en jefes y blindados.',color:'#adf9f4'},
   {id:'heal',name:'Reparación',description:'Recuperá una vida del convoy, hasta 3.',color:'#a7f799'}
 ];
 export function applyMutation(state,id){

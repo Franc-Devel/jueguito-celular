@@ -42,11 +42,11 @@ Modo gráfico automático, alto y ahorro. Densidad máxima 2× y brillos reutili
 
 ## Validación
 
-31 pruebas unitarias: dificultad, puertas, proyectiles, reinicio, misiones, perspectiva, colisiones continuas, rotación, poder inicial, rutas/recompensas, 100 planes distintos, objetivos alcanzables, límite por misión, curvas, espacio de maniobra, blindaje del jefe, objetivos nuevos, mutaciones, puertas móviles, duelos por etapas y distribución de objetivos en toda la campaña.
+36 pruebas unitarias: dificultad, puertas, proyectiles, reinicio, misiones, perspectiva, colisiones continuas, rotación, poder inicial, rutas/recompensas, 100 planes distintos, objetivos alcanzables, límite por misión, curvas, espacio de maniobra, blindaje del jefe, objetivos nuevos, mutaciones, puertas móviles, duelos por etapas y distribución de objetivos en toda la campaña. Incluyen recarga, ataques enemigos, abanicos, normalización de proyectiles y resistencia al hielo.
 
 Pruebas con Chromium: escritorio y viewport táctil 390×844, inicio/pausa/continuación, selector de 100 misiones, ausencia de desbordamiento horizontal, duplicación a través de ×2, finales de misión, objetivos incumplidos, escape del jefe, barricadas y cinco regiones. Web Audio real: disparos, silencio, pausa, reanudación y persistencia. Rutas: apertura por disparos, cuatro recompensas, arsenal tras recargar y objetivos de suministros. Se verificaron en navegador los niveles 49/50/51, tres jefes, fase de blindaje, límites de poder, briefing, selector y conservación del progreso previo. Rotación y modo ahorro. Prueba de estrés con 576 proyectiles y 36 enemigos en Chromium del entorno; no representa FPS de un iPhone.
 
-La simulación del motor completó las 100 misiones con una estrategia que apunta a objetivos; verifica que son alcanzables y no sustituye el balance con jugadores. También se verificaron misiones móviles representativas y las fases nuevas de blindaje.
+La simulación del motor recorre las 100 misiones y compara estrategias que apuntan a objetivos, se quedan quietas o barren de lado a lado. Ejecuta la actualización real del juego, con movimiento limitado a la velocidad del teclado; no sustituye el balance con jugadores. Las derrotas forman parte del análisis de dificultad. Ver [ajustes y límites de la validación](docs/DIFICULTAD.md).
 
 Falta prueba en iPhone real (Chrome usa WebKit en iOS), balance con jugadores y verificación del deploy publicado.
 
@@ -68,6 +68,22 @@ Un repositorio privado no restringe el sitio. Antes de dar por concluido el depl
 Las cartas se aplican solo a la misión actual: perforación (hasta tres enemigos por pelotita), rebote lateral, dispersión sin aumentar la cantidad de pelotitas, hielo que frena por 1,5 segundos o reparación. Se pueden combinar. Las armas del arsenal conservan sus desbloqueos permanentes.
 
 Las puertas oscilan en determinadas misiones: la multiplicación usa su posición real en el instante del cruce. Se conservan las claves de progreso y arsenal previas.
+
+## Dificultad de la campaña
+
+La presión aumenta en los 100 niveles: más oleadas, menos tiempo libre entre ellas y enemigos con resistencia que acompaña el poder del cañón. Las primeras oleadas avanzadas dejan preparar el arma. Las ráfagas grandes tienen más recarga; conservan su cantidad real de pelotitas y la duplicación al cruzar ×2.
+
+Desde el nivel 10 los jefes disparan. Una mira roja fija anuncia el destino; moverse después del aviso permite esquivar. Desde el 41 disparan en abanico. Las bases también atacan y desde el 61 usan abanicos. Desde el 20 los jefes llegan con escoltas. El bruto cambia de carril y el hielo frena menos a jefes y blindados.
+
+Desde el 51, los rescates exigen cuatro civiles y los campos minados cinco minas. A partir del 21 ambos recorridos agregan un dron. Las misiones con poca munición ajustan la resistencia del jefe a su límite de poder.
+
+Para repetir el análisis local:
+
+```sh
+PULSO_PATTERNS=objective,center,sweep PULSO_GEARS=standard,rapid node scripts/balance.mjs 10 30 50 70 100
+```
+
+`expert` añade un controlador con información completa de trayectorias para estudiar si esquivar mejor permite superar encuentros difíciles; no representa un jugador promedio.
 
 [Alcance de las mejoras basadas en el documento aportado](docs/VARIEDAD_NIVELES.md).
 

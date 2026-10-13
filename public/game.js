@@ -1,7 +1,7 @@
 import {drawSpecial,drawPickup} from './encounters.js';
 import {levelPlan} from './campaign.js';
 import {mission,missionComplete,project,place,road,zombie,vehicle,configureScene} from './scenery.js';
-import {clamp,levelConfig,gatePower,freshState,volley,multiplyAtGate,projectileHit,resizeWorld,routeReward,damageOnImpact,MUTATIONS,applyMutation,missionObjectives} from './engine.js';
+import {clamp,levelConfig,gatePower,freshState,volley,multiplyAtGate,projectileHit,resizeWorld,routeReward,damageOnImpact,MUTATIONS,applyMutation,missionObjectives,shotInterval,attackProfile,hostileSalvo,slowedSpeed} from './engine.js';
 import {routeOptions,drawFork,drawRouteTarget} from './routes.js';
 import {GameAudio} from './audio.js';
 
@@ -153,6 +153,7 @@ function spawnBoss(c,plan){
     const x=W*(count===1?.5:.24+i*.26),hp=c.boss*(plan.bossScale??1)*(kind==='swarm'?.4:kind==='armored'?1.3:1);
     s.enemies.push({x,homeX:x,y:-40-i*35,hp,max:hp,r:count>1?29:40,speed:(22+s.level*.2)*(kind==='charger'?1.1:.95),boss:true,bossKind:kind,phase:i*2,charge:0,spawnAt:s.time});
   }
+  if(s.level>=20)spawnHorde(c,{formation:'flanks',lane:0,kinds:s.level>=60?['tank','runner']:['walker','runner'],hpScale:.8,speedScale:.9,at:s.time});
 }
 function update(dt){
   const c=levelConfig(s.level),m=mission(s.level),plan=levelPlan(s.level),unit=H/550;
@@ -160,7 +161,7 @@ function update(dt){
   s.spawn-=dt;s.shot-=dt;s.gate-=dt;s.routeTimer-=dt;if(s.fork)s.fork.life=Math.max(0,s.fork.life-dt);s.comboTime=Math.max(0,s.comboTime-dt);if(!s.comboTime)s.combo=0;
   if(keys.has('ArrowLeft'))s.x=clamp(s.x-dt*.7,s.laneMin,s.laneMax);
   if(keys.has('ArrowRight'))s.x=clamp(s.x+dt*.7,s.laneMin,s.laneMax);
-  if(s.shot<=0){s.shot=s.rapid?.11:.16;const balls=volley(s.power,s.x*W,H-80,W,{pierce:s.pierce,bounce:s.bounce,spread:s.spread,freeze:s.freeze});if(s.blast)balls[0].explosive=true;s.bullets.push(...balls);audio.play('fire',s.power/48);}
+  if(s.shot<=0){s.shot=shotInterval(s);const balls=volley(s.power,s.x*W,H-80,W,{pierce:s.pierce,bounce:s.bounce,spread:s.spread,freeze:s.freeze});if(s.blast)balls[0].explosive=true;s.bullets.push(...balls);audio.play('fire',s.power/48);}
   if(s.choiceIndex<plan.choiceAt.length&&s.time>=plan.choiceAt[s.choiceIndex]){s.choiceIndex++;openChoices();return;}
   updateSpecialSpawns(plan,c);
   while(s.routeCount<plan.spawnRoutesAt.length&&s.time>=plan.spawnRoutesAt[s.routeCount]){
@@ -186,7 +187,10 @@ function update(dt){
     const x=[.22,.5,.78][obstacle.lane]*W;
     s.enemies.push({kind:'barricade',x,homeX:x,y:-20,hp,max:hp,r:25,speed:48,required:plan.requiredBlocks>0});
   }
-  while(s.bossIndex<plan.bossSchedule.length&&s.time>=plan.bossSchedule[s.bossIndex].at){const b=plan.bossSchedule[s.bossIndex++];spawnBoss(c,{...plan,bossKind:b.kind,bossScale:b.scale});s.bossSpawned=s.bossIndex===plan.bossSchedule.length;}
+  while(s.bossIndex<plan.bossSchedule.length&&s.time>=plan.bossSchedule[s.bossIndex].at){
+    if(s.bossIndex>0&&s.enemies.some(e=>e.boss&&e.hp>0))break;
+    const b=plan.bossSchedule[s.bossIndex++];spawnBoss(c,{...plan,bossKind:b.kind,bossScale:b.scale});s.bossSpawned=s.bossIndex===plan.bossSchedule.length;
+  }
   for(const g of s.gates){
     g.previousY=g.y;g.previousX=g.x;if(g.moving)g.x=clamp(g.homeX+Math.sin(s.time*1.4+g.id)*W*.085,W*.025,W*.975-g.w);g.y+=68*unit*dt;g.flash=Math.max(0,(g.flash||0)-dt);g.labelCooldown=Math.max(0,(g.labelCooldown||0)-dt);
     if(!g.used&&g.y>=H-90&&g.y<H-45&&s.x*W>=g.x&&s.x*W<=g.x+g.w){
@@ -197,15 +201,16 @@ function update(dt){
   s.gates=s.gates.filter(g=>g.y<H+40);
   for(const e of s.enemies){
     e.hit=Math.max(0,(e.hit||0)-dt);e.previousY=e.y;e.previousX=e.x;
-    let speed=e.speed;if(e.slow>0){e.slow=Math.max(0,e.slow-dt);speed*=.45;}
+    let speed=e.speed*slowedSpeed(e);if(e.slow>0)e.slow=Math.max(0,e.slow-dt);
     if(e.boss){
       e.armorActive=e.bossKind==='armored'&&(s.time-(e.spawnAt??0))%3.6<2.1;
       if(e.bossKind==='charger'){e.charge=(s.time+e.phase)%3.8;e.x=clamp((e.homeX??W*.5)+Math.sin(s.time*1.8+e.phase)*W*.25,W*.12,W*.88);speed*=e.charge>3?2.7:.7;}
       else if(e.bossKind==='swarm')e.x=clamp((e.homeX??e.x)+Math.sin(s.time*1.7+e.phase)*W*.06,W*.1,W*.9);
       else if(e.bossKind==='armored')e.x=clamp((e.homeX??W*.5)+Math.sin(s.time*.75)*W*.12,W*.12,W*.88);
+      else e.x=clamp((e.homeX??W*.5)+Math.sin((s.time-(e.spawnAt??0))*.9)*W*.24,W*.12,W*.88);
     }else if(e.sway)e.x=clamp(e.homeX+Math.sin(s.time*3+e.phase)*W*e.sway,W*s.laneMin,W*s.laneMax);
     e.y+=speed*unit*dt;
-    if(e.kind==='drone'){e.fireIn-=dt;if(e.fireIn<=0){e.fireIn=2.5;if(s.hostileShots.length<40){const dx=s.x*W-e.x,dy=H-48-e.y,length=Math.hypot(dx,dy);s.hostileShots.push({x:e.x,y:e.y,previousY:e.y,vx:dx/length*155*unit,vy:dy/length*155*unit});}}}
+    updateEnemyAttack(e,dt);
 
   }
   const orderedGates=[...s.gates].sort((a,b)=>b.y-a.y),splits=[];
@@ -277,7 +282,7 @@ function chooseMutation(id){
 function updateSpecialSpawns(plan,c){
   const xFor=lane=>[.22,.5,.78][lane]*W;
   while(s.civilianIndex<plan.civilians.length&&s.time>=plan.civilians[s.civilianIndex].at){const p=plan.civilians[s.civilianIndex++];s.pickups.push({kind:'civilian',x:xFor(p.lane),y:H*.3,r:16,speed:65});label('CIVIL EN LA RUTA',xFor(p.lane),H*.28,'#a6efff');}
-  while(s.mineIndex<plan.mines.length&&s.time>=plan.mines[s.mineIndex].at){const p=plan.mines[s.mineIndex++];s.enemies.push({kind:'mine',x:xFor(p.lane),y:-20,r:18,hp:2,max:2,speed:80});}
+  while(s.mineIndex<plan.mines.length&&s.time>=plan.mines[s.mineIndex].at){const p=plan.mines[s.mineIndex++],hp=Math.max(2,c.hp*.3);s.enemies.push({kind:'mine',x:xFor(p.lane),y:-20,r:18,hp,max:hp,speed:80});}
   while(s.droneIndex<plan.drones.length&&s.time>=plan.drones[s.droneIndex].at){const p=plan.drones[s.droneIndex++],hp=Math.max(6,c.hp*2.5);s.enemies.push({kind:'drone',x:xFor(p.lane),y:H*(.15+p.lane*.06),r:22,hp,max:hp,speed:0,fireIn:1.3});label('DRON HOSTIL',xFor(p.lane),H*.13,'#ffabc0');}
   while(s.baseIndex<plan.bases.length&&s.time>=plan.bases[s.baseIndex].at){const p=plan.bases[s.baseIndex++],hp=Math.max(20,c.boss*.55);s.enemies.push({kind:'base',label:`BASE ${s.baseIndex}`,x:xFor(p.lane),y:H*.24,r:38,hp,max:hp,speed:0});}
   while(s.pathIndex<plan.pathAt.length&&s.time>=plan.pathAt[s.pathIndex]){
@@ -304,6 +309,16 @@ function hurt(){
   s.invincible=.8;s.shake=.2;s.flash=.18;
   if(s.shield>0){s.shield--;label('ESCUDO',W/2,H-115,'#88e7ff');audio.play('gate');return;}
   s.lives--;audio.play('hurt');if(s.lives<=0)finish(false);
+}
+function updateEnemyAttack(e,dt){
+  const profile=attackProfile(s.level,e);if(!profile||e.y<0||e.hp<=0)return;
+  e.fireIn=(e.fireIn??1.5)-dt;
+  if(e.fireIn<=profile.warning&&!e.attackTarget)e.attackTarget={x:s.x*W,y:H-48};
+  if(e.fireIn<=0){
+    const shots=hostileSalvo(e,e.attackTarget,W,H,profile);
+    if(s.hostileShots.length+shots.length<=40)s.hostileShots.push(...shots);
+    e.attackTarget=null;e.fireIn=profile.interval;audio.play('hit',.2);
+  }
 }
 function updateHostileShots(dt){
   for(const shot of s.hostileShots){
@@ -357,6 +372,16 @@ function draw(){
   configureScene(levelPlan(s.level));ctx.clearRect(0,0,W,H);road(ctx,W,H,s.time,s.level);if(s.fork?.life>0)drawFork(ctx,W,H,s.fork,project);ctx.save();
   if(s.shake>0&&!reducedMotion.matches)ctx.translate(Math.sin(s.time*95)*s.shake*12,0);
   for(const d of s.debris){place(ctx,d.x,d.y,W,H);ctx.fillStyle=d.color;ctx.globalAlpha=Math.min(.55,d.life*.4);ctx.beginPath();ctx.ellipse(d.x,d.y,d.radius,d.radius*.4,0,0,Math.PI*2);ctx.fill();ctx.restore();}
+  for(const e of s.enemies){
+    if(!e.attackTarget)continue;
+    ctx.save();ctx.strokeStyle='#ff7b8c';ctx.globalAlpha=.6;ctx.lineWidth=2;
+    for(const shot of hostileSalvo(e,e.attackTarget,W,H,attackProfile(s.level,e))){
+      const endX=e.x+shot.vx*(e.attackTarget.y-e.y)/shot.vy;ctx.setLineDash([7,7]);ctx.beginPath();
+      for(let i=0;i<=12;i++){const t=i/12,p=project(e.x+(endX-e.x)*t,e.y+(e.attackTarget.y-e.y)*t,W,H);if(i===0)ctx.moveTo(p.x,p.y);else ctx.lineTo(p.x,p.y);}ctx.stroke();ctx.setLineDash([]);
+      const target=project(endX,e.attackTarget.y,W,H);ctx.beginPath();ctx.arc(target.x,target.y,18,0,Math.PI*2);ctx.stroke();
+    }
+    ctx.restore();
+  }
   const objects=[...s.gates.map(item=>({item,type:'gate',y:item.y})),...s.enemies.map(item=>({item,type:'enemy',y:item.y})),...s.bullets.map(item=>({item,type:'bullet',y:item.y})),...s.pickups.map(item=>({item,type:'pickup',y:item.y}))].sort((a,b)=>a.y-b.y);
   for(const {item,type} of objects){if(item.y<-80||item.y>H+80)continue;if(type==='gate')drawGate(item);else if(type==='enemy')drawEnemy(item);else if(type==='pickup'){place(ctx,item.x,item.y,W,H);drawPickup(ctx,item,s.time);ctx.restore();}else drawBullet(item);}
   for(const shot of s.hostileShots){place(ctx,shot.x,shot.y,W,H);glow(shot.x,shot.y,10,'#ff7192',.6);ctx.fillStyle='#ff9cad';ctx.beginPath();ctx.arc(shot.x,shot.y,5,0,Math.PI*2);ctx.fill();ctx.restore();}

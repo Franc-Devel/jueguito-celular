@@ -54,3 +54,29 @@ test('la bifurcación exige una elección y los nuevos objetivos tienen entidade
 
 test('la variedad de objetivos se reparte por todos los capítulos',()=>{for(let start=11;start<=91;start+=10){const plans=Array.from({length:10},(_,i)=>levelPlan(start+i));assert.ok(new Set(plans.map(p=>p.pattern)).size>=8);assert.ok(plans.filter(p=>['rescue','evolution','minefield','siege','crossfire','branch-choice','boss-rush'].includes(p.pattern)).length>=3);}for(let n=2;n<=100;n++)assert.notEqual(levelPlan(n).pattern,levelPlan(n-1).pattern);});
 test('todas las misiones después del tutorial ofrecen una decisión de mejoras',()=>{for(let n=4;n<=100;n++){const p=levelPlan(n);assert.ok(p.choiceAt.length>0);assert.ok(p.choiceAt.every(t=>t>0&&t<p.duration));}assert.equal(levelPlan(1).choiceAt.length,0);});
+
+import {shotInterval,attackProfile,hostileSalvo,slowedSpeed} from '../public/engine.js';
+test('las ráfagas grandes recargan más lento y la mejora rápida sigue siendo útil',()=>{
+  assert.ok(shotInterval({power:48})>shotInterval({power:4}));
+  for(const power of [1,8,24,48]){assert.ok(shotInterval({power,rapid:true})<shotInterval({power}));assert.equal(volley(power,195,400,390).length,power);}
+});
+test('los jefes anuncian ataques y las descargas tardías abren un abanico',()=>{
+  assert.equal(attackProfile(1,{boss:true}),null);
+  const early=attackProfile(10,{boss:true}),late=attackProfile(50,{boss:true});
+  assert.equal(early.count,1);assert.equal(late.count,3);assert.ok(late.warning>=.7);assert.ok(late.interval>late.warning);assert.ok(late.interval<early.interval);
+  const shots=hostileSalvo({x:195,y:100},{x:195,y:500},390,550,late);
+  assert.equal(shots.length,3);assert.ok(shots[0].vx>0&&shots[2].vx<0);assert.ok(Math.abs(shots[1].vx)<1e-10);assert.ok(shots.every(s=>s.vy>0));
+});
+test('el ataque mantiene la misma trayectoria al cambiar las proporciones de pantalla',()=>{
+  const profile=attackProfile(80,{kind:'base'}),a=hostileSalvo({x:50,y:100},{x:300,y:500},390,550,profile),b=hostileSalvo({x:100,y:60},{x:600,y:300},780,330,profile);
+  for(let i=0;i<a.length;i++){assert.ok(Math.abs(b[i].vx-a[i].vx*2)<1e-9);assert.ok(Math.abs(b[i].vy-a[i].vy*.6)<1e-9);}
+  const s=freshState(50);s.enemies.push({x:50,y:100,attackTarget:{x:300,y:500}});resizeWorld(s,390,550,780,330);assert.deepEqual(s.enemies[0].attackTarget,{x:600,y:300});
+});
+test('el hielo frena pero no inmoviliza a los jefes ni a los blindados',()=>{
+  assert.equal(slowedSpeed({boss:true,slow:1}),.72);assert.equal(slowedSpeed({kind:'tank',slow:1}),.72);assert.equal(slowedSpeed({kind:'walker',slow:1}),.45);assert.equal(slowedSpeed({boss:true,slow:0}),1);
+});
+test('el tramo avanzado exige más rescates y minas con presión adicional',()=>{
+  assert.equal(levelPlan(11).requiredRescues,3);assert.equal(levelPlan(51).requiredRescues,4);assert.ok(levelPlan(51).drones.length>0);
+  assert.equal(levelPlan(13).requiredMines,3);assert.equal(levelPlan(53).requiredMines,5);assert.ok(levelPlan(53).drones.length>0);
+  assert.ok(levelPlan(50).waves.length>levelPlan(10).waves.length);assert.ok(levelConfig(50).hp>12);assert.ok(levelConfig(50).boss>500);
+});

@@ -14,8 +14,8 @@ Los aliados azules son entidades separadas de los enemigos y nunca absorben ni r
 
 ## Verificación
 
-- 31 pruebas unitarias pasan, incluidas distribución por capítulo y decisiones en toda la campaña.
-- 100 misiones completadas en simulación usando el motor real, selección de mejoras y movimiento limitado; cinco pruebas adicionales del ramal ASALTO completadas. Estas verificaciones muestran que los objetivos son alcanzables y no sustituyen pruebas con personas.
+- 36 pruebas unitarias pasan, incluidas distribución por capítulo, decisiones, recarga y ataques enemigos.
+- La campaña inicial completaba las 100 misiones con el controlador que apunta a objetivos. Tras subir la dificultad, las simulaciones también registran derrotas: ver [resultados y límites del ajuste](DIFICULTAD.md). Se usa el motor real, selección de mejoras y movimiento limitado; estas verificaciones no sustituyen pruebas con personas.
 - Navegador móvil 390×844: rescate, nuevas escenas, elección/pausa/reanudación y progreso/arsenal previos.
 - Navegador: tres impactos perforantes, rebote, ralentización, daño de mina, proyectil hostil, recompensa del ramal y condiciones de victoria/derrota de rescate/asedio.
 - Escritorio y pantalla horizontal: las tres cartas deben estar visibles y seleccionables y el juego debe continuar al elegir.

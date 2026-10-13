@@ -62,12 +62,12 @@ function encounter(pattern,index,act,level) {
 }
 
 function waveSchedule(n,act,pattern,duration) {
-  let count = 7 + Math.floor(act/3);
+  let count = 7 + Math.floor(act*.8);
   if(pattern==='swarm')count+=3;
   if(pattern==='curve-ambush')count+=2;
   if(n<=3)count=n===1?6:7;
   const first = n<=3 ? 4 : 3.4 + (n%4)*.18;
-  const end = duration - 9.05;
+  const end = duration - (n<=3?9.05:5.5);
   return Array.from({length:count},(_,index)=>{
     let fraction = index/(count-1);
     // Short ambush bursts followed by a recovery interval; not an even spawn loop.
@@ -78,7 +78,9 @@ function waveSchedule(n,act,pattern,duration) {
     if(n===2)wave.kinds=['walker','walker',...(index%2?['walker']:[])];
     // A tiny per-level cadence offset combines with lane/formation changes so
     // repeated archetypes remain different layouts across the ten chapters.
-    return {at:round(first+(end-first)*fraction+jitter),...wave,hpScale:round(wave.hpScale+act*.018),speedScale:round(wave.speedScale+act*.012)};
+    if(n>=21&&index%2===1)wave.kinds.push(index%3===0?'runner':'walker');
+    const preparation=n>=11?.7+.3*Math.min(1,index/3):1;
+    return {at:round(first+(end-first)*fraction+jitter),...wave,hpScale:round((wave.hpScale+act*.035)*preparation),speedScale:round(wave.speedScale+act*.016)};
   });
 }
 
@@ -100,7 +102,7 @@ function obstacleSchedule(n,act,pattern,duration) {
  * Lane indices are left=0, center=1, right=2. Wave times are seconds from
  * mission start; kinds lists define exactly how many enemies the wave contains.
  * Gates/routing sequences cycle independently, while authored waves/obstacles
- * fire once. The boss comes after duration and is required for every mission.
+ * fire once. The end condition depends on the objective family.
  */
 export function levelPlan(level) {
   const numeric=Number(level),n=bound(Number.isFinite(numeric)?Math.floor(numeric):1,1,100);
@@ -112,7 +114,7 @@ export function levelPlan(level) {
   const startingPower=n===3?2:Math.min(10,1+act);
   const roadStyle=type.roadStyle==='leftBend'&&act%2?'rightBend':type.roadStyle==='rightBend'&&act%2?'leftBend':type.roadStyle==='straight'&&act>=5?'sCurve':type.roadStyle;
   const weather=n===1||n===2?'clear':n===3?'rain':act===6||act===7?(type.weather==='fog'?'fog':'snow'):type.weather;
-  const gateSequence=Array.from({length:4},(_,index)=>({lane:n<=2?(index%2?2:0):(n+index*2+act)%3,kind:type.pattern==='limited-ammo'?'add':index===0||((index+archetype+act)%3!==1)?'multiply':'add'}));
+  const gateSequence=Array.from({length:4},(_,index)=>({lane:n<=2?(index%2?2:0):(n+index*2+act)%3,kind:type.pattern==='limited-ammo'?'add':index===0||(index+archetype+act)%2===0?'multiply':'add'}));
   const routeSequence=Array.from({length:4},(_,index)=>{
     const ammoLane=n<=3?0:(act+archetype+index)%2?2:0;
     return {ammoLane,techLane:2-ammoLane,tech:TECH[(act+archetype+index)%TECH.length]};
@@ -120,14 +122,13 @@ export function levelPlan(level) {
   const spawnRoutesAt=[2,10,round(Math.min(20,duration-10))];
   const requiredBlocks=type.pattern==='barricade-slalom'?Math.min(4,obstacles.length-1):type.pattern==='elite-gauntlet'?obstacles.length:0;
   const requiredCaches=type.pattern==='supply-crossing'?2:0;
-  const killTarget=Math.max(3,Math.floor(totalEnemies*.3));
-  const plan={id:n,title:`${type.title} · ${act+1}`,briefing:n===1?'Mové el convoy con el dedo o el mouse. Atravesá ×2 y frená la primera horda.':n===2?'Abrí 2 cajas a tiros: munición a la izquierda, taller a la derecha. Luego frená al jefe.':n===3?'Llegaron los corredores. Apuntá primero al grupo más cercano y buscá las puertas ×2.':type.briefing,pattern:type.pattern,roadStyle,weather,timeOfDay:type.timeOfDay,bossKind:type.bossKind,powerCap,startingPower,gateInterval:type.gateInterval,gateSequence,waves,obstacles,requiredBlocks,requiredCaches,killTarget,duration,routeSequence,spawnRoutesAt};
+  const killTarget=Math.max(3,Math.floor(totalEnemies*(.4+act*.025)));
+  const plan={id:n,title:`${type.title} · ${act+1}`,briefing:n===1?'Mové el convoy con el dedo o el mouse. Atravesá ×2 y frená la primera horda.':n===2?'Abrí 2 cajas a tiros: munición a la izquierda, taller a la derecha. Luego frená al jefe.':n===3?'Llegaron los corredores. Apuntá primero al grupo más cercano y buscá las puertas ×2.':type.briefing,pattern:type.pattern,roadStyle,weather,timeOfDay:type.timeOfDay,bossKind:type.bossKind,powerCap,startingPower,gateInterval:type.gateInterval+act*.12,gateSequence,waves,obstacles,requiredBlocks,requiredCaches,killTarget,duration,routeSequence,spawnRoutesAt};
   return diversify(plan,act,archetype,variant);
 
 }
 
-// Mechanics are authored independently from color/stat changes. Each chapter
-// alternates familiar combat with different verbs: rescue, dodge, defuse, siege.
+// Mechanics are authored independently from color/stat changes.
 function diversify(plan,act,archetype,variant){
   const p={...plan,endMode:'boss',requiredRescues:0,requiredMines:0,requiredBases:0,requiredMutations:0,requiredPath:false,
     civilians:[],mines:[],drones:[],bases:[],pathAt:[],choiceAt:[],movingGates:plan.id>=4&&plan.id%3!==1};
@@ -162,10 +163,15 @@ function diversify(plan,act,archetype,variant){
     else if(twist===1){p.drones=[{at:12,lane:p.id%3}];p.briefing+=' Un dron protege el cierre: destruílo y esquivá sus disparos rojos.';}
     else{p.civilians=[{at:6,lane:p.id%3},{at:15,lane:(p.id+2)%3}];p.requiredRescues=1;p.briefing+=' Rescatá también a un civil azul al pasar cerca de él.';}
   }
+  if(p.id>=21&&['rescue','minefield'].includes(p.pattern))p.drones.push({at:round(p.duration*.55),lane:(act+1)%3});
+  if(p.pattern==='rescue'&&act>=5){p.requiredRescues=4;p.briefing=p.briefing.replace('3 civiles','4 civiles');}
+  if(p.pattern==='minefield'&&act>=5){p.requiredMines=5;p.briefing=p.briefing.replace('3 minas','5 minas');}
+  if(special&&p.id>=21)p.killTarget=Math.max(3,Math.floor(p.waves.reduce((sum,w)=>sum+w.kinds.length,0)*.5));
+  if(p.id>=10&&(p.endMode==='boss'||p.drones.length||p.bases.length))p.briefing+=' La mira roja anuncia un disparo: salí de esa línea antes de la descarga.';
   p.chapter=act+1;
   p.missionLabel=p.title.split(' · ')[0];
 
-  if(p.endMode==='boss'&&!p.bossSchedule)p.bossSchedule=[{at:p.duration,kind:p.bossKind,scale:1}];
+  if(p.endMode==='boss'&&!p.bossSchedule)p.bossSchedule=[{at:p.duration,kind:p.bossKind,scale:p.powerCap/48}];
   if(p.endMode!=='boss')p.bossSchedule=[];
   p.waves=p.waves.map(w=>({...w,kinds:[...w.kinds]}));
   p.killTarget=Math.min(p.killTarget,p.waves.reduce((n,w)=>n+w.kinds.length,0));
