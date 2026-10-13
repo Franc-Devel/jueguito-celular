@@ -104,5 +104,42 @@ export function levelPlan(level) {
   const requiredBlocks=type.pattern==='barricade-slalom'?Math.min(4,obstacles.length-1):type.pattern==='elite-gauntlet'?obstacles.length:0;
   const requiredCaches=type.pattern==='supply-crossing'?2:0;
   const killTarget=Math.max(3,Math.floor(totalEnemies*.3));
-  return {id:n,title:`${type.title} · ${act+1}`,briefing:n===1?'Mové el convoy con el dedo o el mouse. Atravesá ×2 y frená la primera horda.':n===2?'Abrí 2 cajas a tiros: munición a la izquierda, taller a la derecha. Luego frená al jefe.':n===3?'Llegaron los corredores. Apuntá primero al grupo más cercano y buscá las puertas ×2.':type.briefing,pattern:type.pattern,roadStyle,weather,timeOfDay:type.timeOfDay,bossKind:type.bossKind,powerCap,startingPower,gateInterval:type.gateInterval,gateSequence,waves,obstacles,requiredBlocks,requiredCaches,killTarget,duration,routeSequence,spawnRoutesAt};
+  const plan={id:n,title:`${type.title} · ${act+1}`,briefing:n===1?'Mové el convoy con el dedo o el mouse. Atravesá ×2 y frená la primera horda.':n===2?'Abrí 2 cajas a tiros: munición a la izquierda, taller a la derecha. Luego frená al jefe.':n===3?'Llegaron los corredores. Apuntá primero al grupo más cercano y buscá las puertas ×2.':type.briefing,pattern:type.pattern,roadStyle,weather,timeOfDay:type.timeOfDay,bossKind:type.bossKind,powerCap,startingPower,gateInterval:type.gateInterval,gateSequence,waves,obstacles,requiredBlocks,requiredCaches,killTarget,duration,routeSequence,spawnRoutesAt};
+  return diversify(plan,act,archetype);
+
+}
+
+// Mechanics are authored independently from color/stat changes. Each chapter
+// alternates familiar combat with different verbs: rescue, dodge, defuse, siege.
+function diversify(plan,act,archetype){
+  const p={...plan,endMode:'boss',requiredRescues:0,requiredMines:0,requiredBases:0,requiredMutations:0,requiredPath:false,
+    civilians:[],mines:[],drones:[],bases:[],pathAt:[],choiceAt:[],movingGates:plan.id>=4&&plan.id%3!==1};
+  const special=act%2===1;
+  if(special&&archetype===0){
+    Object.assign(p,{pattern:'rescue',title:`Ruta de rescate · ${act+1}`,briefing:'Rescatá 3 civiles: acercá el convoy a las figuras azules cuando lleguen abajo. Los disparos no les hacen daño. Llegá con vida al refugio.',endMode:'timed',requiredRescues:3,roadStyle:'rightBend',weather:'fog'});
+    p.civilians=[3,7,11,15,19].map((at,i)=>({at,lane:(i+act)%3}));p.waves=p.waves.filter((_,i)=>i%2===0);p.killTarget=2;p.obstacles=[];p.requiredBlocks=0;
+  }else if(special&&archetype===1){
+    Object.assign(p,{pattern:'evolution',title:`Laboratorio en marcha · ${act+1}`,briefing:'Elegí dos mutaciones durante la misión: perforación, rebote, dispersión o hielo. Combiná las mejoras y frená al jefe.',requiredCaches:0,requiredMutations:2,roadStyle:'split',weather:'clear'});p.choiceAt=[7,17];
+  }else if(special&&archetype===2){
+    Object.assign(p,{pattern:'minefield',title:`Campo minado · ${act+1}`,briefing:'Desactivá 3 minas disparándoles. Esquivá las restantes: explotan si chocan con el convoy. Alcanzá la salida con vida.',endMode:'timed',requiredMines:3,roadStyle:'narrow',weather:'rain'});
+    p.mines=[4,7,10,13,16,19,22].map((at,i)=>({at,lane:(i*2+act)%3}));p.waves=p.waves.filter((_,i)=>i%2===0);p.killTarget=2;p.obstacles=[];p.requiredBlocks=0;
+  }else if(special&&archetype===3){
+    Object.assign(p,{pattern:'siege',title:`Asedio a las bases · ${act+1}`,briefing:'Destruí las dos bases, una a cada costado. Cada base tiene su propia barra. Tenés 25 segundos extra para terminar el asedio.',endMode:'siege',requiredBases:2,roadStyle:'split',weather:'ash'});
+    p.bases=[{at:8,lane:0},{at:13,lane:2}];p.waves=p.waves.filter((_,i)=>i%2===0);p.killTarget=2;p.obstacles=[];p.requiredBlocks=0;
+  }else if(special&&archetype===4){
+    Object.assign(p,{pattern:'crossfire',title:`Cruce de drones · ${act+1}`,briefing:'Los drones disparan proyectiles rojos hacia tu posición. Movete para esquivarlos o destruí los drones. Sobreviví hasta el final.',endMode:'timed',roadStyle:'sCurve',weather:'clear'});
+    p.drones=[{at:5,lane:0},{at:12,lane:2},{at:20,lane:1}];p.waves=p.waves.filter((_,i)=>i%2===0);p.killTarget=2;p.obstacles=[];p.requiredBlocks=0;
+  }else if(special&&archetype===7){
+    Object.assign(p,{pattern:'branch-choice',title:`La bifurcación · ${act+1}`,briefing:'Elegí un ramal cruzando su cartel: REFUGIO recupera vida y reduce la presión; ASALTO da +4 poder y agrega enemigos. La elección cambia las siguientes oleadas.',requiredPath:true,roadStyle:'split',weather:'clear'});p.pathAt=[4,16];p.choiceAt=[12];
+  }else if(special&&archetype===9){
+    Object.assign(p,{pattern:'boss-rush',title:`Tres amenazas · ${act+1}`,briefing:'Tres duelos seguidos: cargador, acorazado y bruto. Cambiá de carril, aprovechá el núcleo expuesto y derrotá a los tres.',roadStyle:'straight',weather:'ash'});
+    p.waves=p.waves.slice(0,3);p.obstacles=[];p.requiredBlocks=0;p.killTarget=2;
+    p.bossSchedule=[{at:round(p.duration*.3),kind:'charger',scale:.6},{at:round(p.duration*.64),kind:'armored',scale:.6},{at:p.duration,kind:'brute',scale:.85}];
+  }
+  if(p.id>=4&&p.choiceAt.length===0&&p.id%4===0)p.choiceAt=[12];
+  if(p.endMode==='boss'&&!p.bossSchedule)p.bossSchedule=[{at:p.duration,kind:p.bossKind,scale:1}];
+  if(p.endMode!=='boss')p.bossSchedule=[];
+  p.waves=p.waves.map(w=>({...w,kinds:[...w.kinds]}));
+  p.killTarget=Math.min(p.killTarget,p.waves.reduce((n,w)=>n+w.kinds.length,0));
+  return p;
 }

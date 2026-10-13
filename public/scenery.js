@@ -532,5 +532,5 @@ export function vehicle(ctx,x,y,power,recoil,time) {
 
 export function missionComplete(level,kills,blocks,extras={}) {
   const m=mission(level);
-  return kills>=m.killTarget&&blocks>=m.requiredBlocks&&(extras.caches||0)>=(m.requiredCaches||0);
+  return kills>=m.killTarget&&blocks>=m.requiredBlocks&&(extras.caches||0)>=m.requiredCaches&&(extras.rescues||0)>=m.requiredRescues&&(extras.mines||0)>=m.requiredMines&&(extras.bases||0)>=m.requiredBases&&(extras.mutations||0)>=m.requiredMutations&&(!m.requiredPath||!!extras.path);
 }
