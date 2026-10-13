@@ -1,1 +1,1 @@
-{"name":"pulso","private":true,"version":"0.1.0","type":"module","scripts":{"start":"node server.mjs","test":"node --test","check":"node --check public/game.js && node --check server.mjs"},"engines":{"node":">=22"}}
+{"name":"pulso","private":true,"version":"0.1.0","type":"module","scripts":{"start":"node server.mjs","test":"node --test","check":"node --check public/game.js && node --check public/scenery.js && node --check server.mjs"},"engines":{"node":">=22"}}
