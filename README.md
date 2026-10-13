@@ -42,7 +42,7 @@ Modo gráfico automático, alto y ahorro. Densidad máxima 2× y brillos reutili
 
 ## Validación
 
-29 pruebas unitarias: dificultad, puertas, proyectiles, reinicio, misiones, perspectiva, colisiones continuas, rotación, poder inicial, rutas/recompensas, 100 planes distintos, objetivos alcanzables, límite por misión, curvas, espacio de maniobra, blindaje del jefe, objetivos nuevos, mutaciones, puertas móviles y duelos por etapas.
+31 pruebas unitarias: dificultad, puertas, proyectiles, reinicio, misiones, perspectiva, colisiones continuas, rotación, poder inicial, rutas/recompensas, 100 planes distintos, objetivos alcanzables, límite por misión, curvas, espacio de maniobra, blindaje del jefe, objetivos nuevos, mutaciones, puertas móviles, duelos por etapas y distribución de objetivos en toda la campaña.
 
 Pruebas con Chromium: escritorio y viewport táctil 390×844, inicio/pausa/continuación, selector de 100 misiones, ausencia de desbordamiento horizontal, duplicación a través de ×2, finales de misión, objetivos incumplidos, escape del jefe, barricadas y cinco regiones. Web Audio real: disparos, silencio, pausa, reanudación y persistencia. Rutas: apertura por disparos, cuatro recompensas, arsenal tras recargar y objetivos de suministros. Se verificaron en navegador los niveles 49/50/51, tres jefes, fase de blindaje, límites de poder, briefing, selector y conservación del progreso previo. Rotación y modo ahorro. Prueba de estrés con 576 proyectiles y 36 enemigos en Chromium del entorno; no representa FPS de un iPhone.
 
@@ -70,3 +70,5 @@ Las cartas se aplican solo a la misión actual: perforación (hasta tres enemigo
 Las puertas oscilan en determinadas misiones: la multiplicación usa su posición real en el instante del cruce. Se conservan las claves de progreso y arsenal previas.
 
 [Alcance de las mejoras basadas en el documento aportado](docs/VARIEDAD_NIVELES.md).
+
+La campaña distribuye 17 familias de misión mediante un listado explícito: no repite un ciclo de diez ni concentra objetivos nuevos solo en capítulos alternos. Cada bloque de diez después de las introducciones tiene al menos ocho familias. Todas las misiones posteriores al tutorial incluyen una decisión de mejoras. [Detalle de los 100 niveles](docs/CAMPANA_100.md).

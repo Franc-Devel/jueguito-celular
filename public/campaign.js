@@ -13,6 +13,23 @@ const TYPES = [
   {pattern:'swarm',title:'Marea de infectados',briefing:'La horda es enorme pero frágil. Multiplicá las pelotitas y barré la carretera.',roadStyle:'narrow',weather:'ash',timeOfDay:'dusk',bossKind:'swarm',powerCap:48,gateInterval:3.5},
   {pattern:'elite-gauntlet',title:'Último peaje',briefing:'Blindados, corredores y bloqueos combinados. Abrí el taller y superá el asalto final.',roadStyle:'sCurve',weather:'rain',timeOfDay:'night',bossKind:'brute',powerCap:48,gateInterval:4.1}
 ];
+// Complete campaign roster. Familiar and new objectives are interleaved in
+// every chapter after the introductions; the roster is not a repeating loop.
+// 0..9 combat styles; 10 rescue, 11 mutations, 12 mines, 13 siege,
+// 14 drones, 15 branch decisions, 16 staged boss battles.
+export const CAMPAIGN_ROSTER=[
+  0,1,2,3,4,5,6,7,8,9,
+  10,11,12,13,14,5,6,15,8,16,
+  3,10,4,12,1,13,11,8,14,16,
+  15,2,13,5,10,11,7,14,12,9,
+  12,3,11,10,15,13,6,14,8,9,
+  10,11,12,13,14,5,6,15,8,16,
+  4,13,10,14,6,11,12,3,15,16,
+  11,5,15,12,8,10,13,2,14,9,
+  13,14,6,10,4,12,11,15,3,16,
+  10,12,13,11,14,15,7,5,8,16
+];
+const SPECIAL_BASE={10:0,11:1,12:2,13:3,14:4,15:7,16:9};
 const FORMATIONS = ['line','v','alternating','flanks','cluster'];
 const TECH = ['shield','rapid','blast'];
 const round = value => Math.round(value * 1000) / 1000;
@@ -87,7 +104,7 @@ function obstacleSchedule(n,act,pattern,duration) {
  */
 export function levelPlan(level) {
   const numeric=Number(level),n=bound(Number.isFinite(numeric)?Math.floor(numeric):1,1,100);
-  const act=Math.floor((n-1)/10),archetype=(n-1)%10,type=TYPES[archetype];
+  const act=Math.floor((n-1)/10),variant=CAMPAIGN_ROSTER[n-1],archetype=variant>=10?SPECIAL_BASE[variant]:variant,type=TYPES[archetype];
   const duration=round(bound(28+act*.7+(archetype===8?4:archetype===9?5:archetype===5?3:1)+(n%3)*.6,28,42));
   const waves=waveSchedule(n,act,type.pattern,duration),obstacles=obstacleSchedule(n,act,type.pattern,duration);
   const totalEnemies=waves.reduce((sum,wave)=>sum+wave.kinds.length,0);
@@ -105,16 +122,16 @@ export function levelPlan(level) {
   const requiredCaches=type.pattern==='supply-crossing'?2:0;
   const killTarget=Math.max(3,Math.floor(totalEnemies*.3));
   const plan={id:n,title:`${type.title} · ${act+1}`,briefing:n===1?'Mové el convoy con el dedo o el mouse. Atravesá ×2 y frená la primera horda.':n===2?'Abrí 2 cajas a tiros: munición a la izquierda, taller a la derecha. Luego frená al jefe.':n===3?'Llegaron los corredores. Apuntá primero al grupo más cercano y buscá las puertas ×2.':type.briefing,pattern:type.pattern,roadStyle,weather,timeOfDay:type.timeOfDay,bossKind:type.bossKind,powerCap,startingPower,gateInterval:type.gateInterval,gateSequence,waves,obstacles,requiredBlocks,requiredCaches,killTarget,duration,routeSequence,spawnRoutesAt};
-  return diversify(plan,act,archetype);
+  return diversify(plan,act,archetype,variant);
 
 }
 
 // Mechanics are authored independently from color/stat changes. Each chapter
 // alternates familiar combat with different verbs: rescue, dodge, defuse, siege.
-function diversify(plan,act,archetype){
+function diversify(plan,act,archetype,variant){
   const p={...plan,endMode:'boss',requiredRescues:0,requiredMines:0,requiredBases:0,requiredMutations:0,requiredPath:false,
     civilians:[],mines:[],drones:[],bases:[],pathAt:[],choiceAt:[],movingGates:plan.id>=4&&plan.id%3!==1};
-  const special=act%2===1;
+  const special=variant>=10;
   if(special&&archetype===0){
     Object.assign(p,{pattern:'rescue',title:`Ruta de rescate · ${act+1}`,briefing:'Rescatá 3 civiles: acercá el convoy a las figuras azules cuando lleguen abajo. Los disparos no les hacen daño. Llegá con vida al refugio.',endMode:'timed',requiredRescues:3,roadStyle:'rightBend',weather:'fog'});
     p.civilians=[3,7,11,15,19].map((at,i)=>({at,lane:(i+act)%3}));p.waves=p.waves.filter((_,i)=>i%2===0);p.killTarget=2;p.obstacles=[];p.requiredBlocks=0;
@@ -136,7 +153,18 @@ function diversify(plan,act,archetype){
     p.waves=p.waves.slice(0,3);p.obstacles=[];p.requiredBlocks=0;p.killTarget=2;
     p.bossSchedule=[{at:round(p.duration*.3),kind:'charger',scale:.6},{at:round(p.duration*.64),kind:'armored',scale:.6},{at:p.duration,kind:'brute',scale:.85}];
   }
-  if(p.id>=4&&p.choiceAt.length===0&&p.id%4===0)p.choiceAt=[12];
+  // Every post-tutorial mission has a tactical choice; some later missions
+  // combine two mutations. These affect shot behavior, not just statistics.
+  if(p.id>=4&&p.choiceAt.length===0)p.choiceAt=p.id>60&&p.id%3===0?[9,19]:[9+p.id%4];
+  if(p.id>=21&&!special){
+    const twist=(p.id+act)%3;
+    if(twist===0){p.mines=[{at:9,lane:(p.id+1)%3},{at:17,lane:(p.id+2)%3}];p.briefing+=' Hay minas en el recorrido: disparales o esquivalas.';}
+    else if(twist===1){p.drones=[{at:12,lane:p.id%3}];p.briefing+=' Un dron protege el cierre: destruílo y esquivá sus disparos rojos.';}
+    else{p.civilians=[{at:6,lane:p.id%3},{at:15,lane:(p.id+2)%3}];p.requiredRescues=1;p.briefing+=' Rescatá también a un civil azul al pasar cerca de él.';}
+  }
+  p.chapter=act+1;
+  p.missionLabel=p.title.split(' · ')[0];
+
   if(p.endMode==='boss'&&!p.bossSchedule)p.bossSchedule=[{at:p.duration,kind:p.bossKind,scale:1}];
   if(p.endMode!=='boss')p.bossSchedule=[];
   p.waves=p.waves.map(w=>({...w,kinds:[...w.kinds]}));
