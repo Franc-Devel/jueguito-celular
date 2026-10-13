@@ -16,7 +16,7 @@ El servidor escucha en loopback, puerto 3000. `HOST` y `PORT` permiten adaptar e
 
 ## Cómo jugar
 
-Disparo automático. Arrastrar sobre la pista en teléfono; mouse o flechas en computadora. Cruzar puertas +2 o ×2 aumenta la cantidad de pelotitas por disparo (máximo 48); cada pelotita hace un punto de daño. Hay tres vidas y un jefe al final de cada pista. Si el jefe alcanza la base, se pierde. Espacio o el botón pausa detienen la partida. Cambiar de pestaña pausa automáticamente.
+Disparo automático. Arrastrar sobre la pista en teléfono; mouse o flechas en computadora. Cruzar puertas +2 o ×2 aumenta la cantidad de pelotitas por disparo (máximo 48); cada pelotita hace un punto de daño. Además, los tiros que cruzan una puerta ×2 se duplican en la pista con un destello; cada puerta actúa una sola vez por proyectil. Se pueden encadenar, con un máximo de 192 proyectiles generados por ráfaga para mantener el rendimiento. Las puertas +2 mejoran el cañón al cruzarlas. Hay tres vidas y un jefe al final de cada pista. Si el jefe alcanza la base, se pierde. Espacio o el botón pausa detienen la partida. Cambiar de pestaña pausa automáticamente.
 
 100 niveles con parámetros progresivos; se desbloquean de uno en uno. El progreso se guarda en localStorage de ese navegador; no se sincroniza entre dispositivos. Sonido opcional, apagado de inicio. No reproduce los gráficos ni la simulación de multitudes del juego de referencia.
 
@@ -28,4 +28,4 @@ Sites está pendiente: no había herramientas de publicación Sites disponibles 
 
 ## Validación de esta versión
 
-Cinco pruebas unitarias: parámetros de los 100 niveles, cálculo de puertas, reinicio de estado, cantidad y daño de proyectiles y duplicación de pelotitas. Verificación de sintaxis y pruebas de navegador Chromium a 1280×900 y 390×844: inicio, pausa, continuación, selector de niveles y ausencia de desbordamiento horizontal. Falta validación en iPhone real (Chrome usa WebKit en iOS), balance de dificultad de los 100 niveles y deploy privado.
+Ocho pruebas unitarias: parámetros de los 100 niveles, cálculo de puertas, reinicio de estado, cantidad y daño de proyectiles duplicación de pelotitas, cruces de puertas, encadenamiento y límites. Verificación de sintaxis y pruebas de navegador Chromium a 1280×900 y 390×844: inicio, pausa, continuación, selector de niveles y ausencia de desbordamiento horizontal. Falta validación en iPhone real (Chrome usa WebKit en iOS), balance de dificultad de los 100 niveles y deploy privado.
