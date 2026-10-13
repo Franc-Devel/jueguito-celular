@@ -13,8 +13,8 @@ test('los proyectiles se duplican al cruzar ×2 y conservan su daño',()=>{const
 test('no multiplica tiros fuera de la puerta o sin cruzarla',()=>{let b=volley(1,200,130,390)[0];b.y=110;assert.equal(multiplyAtGate(b,gate,130),null);b=volley(1,100,140,390)[0];assert.equal(multiplyAtGate(b,gate,150),null);assert.equal(multiplyAtGate(b,{...gate,kind:'add'},150),null);});
 test('permite encadenar puertas y limita cada ráfaga a 192 pelotitas',()=>{const b=volley(1,100,130,390)[0];b.y=90;assert.ok(multiplyAtGate(b,gate,130));assert.ok(multiplyAtGate(b,{...gate,id:2,y:80,previousY:80},110));b.group.count=192;assert.equal(multiplyAtGate(b,{...gate,id:3},130),null);assert.equal(b.group.count,192);});
 
-import {mission,missionComplete,project} from '../public/scenery.js';
-test('misiones recorren cinco regiones y exigen los objetivos correctos',()=>{assert.equal(new Set(Array.from({length:100},(_,i)=>mission(i+1).zone.name)).size,5);assert.equal(missionComplete(1,5,0),false);assert.equal(missionComplete(1,6,0),true);assert.equal(missionComplete(2,100,1),false);assert.equal(missionComplete(2,0,2),true);assert.equal(mission(3).type,2);});
+import {mission,missionComplete,project,configureScene} from '../public/scenery.js';
+test('misiones recorren cinco regiones y exigen todos sus objetivos',()=>{assert.equal(new Set(Array.from({length:100},(_,i)=>mission(i+1).zone.name)).size,5);const a=mission(1),b=mission(2);assert.equal(missionComplete(1,a.killTarget-1,0),false);assert.equal(missionComplete(1,a.killTarget,0),true);assert.equal(missionComplete(2,b.killTarget,b.requiredBlocks,{caches:1}),false);assert.equal(missionComplete(2,b.killTarget,b.requiredBlocks,{caches:2}),true);assert.equal(mission(3).pattern,'runner-chase');});
 test('perspectiva mantiene el centro y acerca los objetos sin cambiar su orden',()=>{const top=project(100,0,390,664),bottom=project(100,664,390,664);assert.ok(top.scale<bottom.scale);assert.ok(top.y<bottom.y);assert.equal(project(195,200,390,664).x,195);assert.ok(top.x>bottom.x);});
 
 import {projectileHit,resizeWorld} from '../public/engine.js';
@@ -28,3 +28,18 @@ test('cada camino concede una recompensa distinta con límites seguros',()=>{con
 
 import {routeOptions} from '../public/routes.js';
 test('las rutas presentan munición a la izquierda y tres mejoras de taller a la derecha',()=>{const rewards=new Set();for(let i=0;i<3;i++){const [left,right]=routeOptions(1,390,650,i);assert.equal(left.route,'ammo');assert.ok(left.x<right.x);assert.ok(left.hp>0&&right.hp>0);rewards.add(right.route);}assert.deepEqual([...rewards].sort(),['blast','rapid','shield']);});
+
+import {levelPlan} from '../public/campaign.js';
+import {damageOnImpact} from '../public/engine.js';
+test('la campaña contiene 100 diseños de encuentros distintos y reproducibles',()=>{
+  const signatures=new Set();
+  for(let i=1;i<=100;i++){const p=levelPlan(i);assert.deepEqual(levelPlan(i),p);signatures.add(JSON.stringify({waves:p.waves.map(w=>({lane:w.lane,formation:w.formation,kinds:w.kinds})),obstacles:p.obstacles.map(o=>o.lane),gates:p.gateSequence,routes:p.routeSequence,cap:p.powerCap,boss:p.bossKind}));}
+  assert.equal(signatures.size,100);
+});
+test('cada misión puede cumplir sus objetivos con los encuentros programados',()=>{for(let i=1;i<=100;i++){const p=levelPlan(i),total=p.waves.reduce((n,w)=>n+w.kinds.length,0);assert.ok(total>=p.killTarget);assert.ok(p.obstacles.length>=p.requiredBlocks);assert.ok(p.spawnRoutesAt.length*2>=p.requiredCaches);assert.ok(p.waves.every(w=>w.at>0&&w.at<p.duration));assert.ok(p.obstacles.every(o=>o.at>0&&o.at<p.duration));assert.ok(p.startingPower<=p.powerCap);}});
+test('el 49, 50 y 51 cambian enemigos, clima, trazado y obstáculos',()=>{const a=levelPlan(49),b=levelPlan(50),c=levelPlan(51);assert.equal(a.bossKind,'swarm');assert.equal(b.roadStyle,'sCurve');assert.equal(b.timeOfDay,'night');assert.equal(b.weather,'rain');assert.ok(b.requiredBlocks>0);assert.equal(c.timeOfDay,'day');assert.equal(c.requiredBlocks,0);assert.notDeepEqual(a.waves,b.waves);assert.notDeepEqual(b.waves,c.waves);});
+test('las curvas cambian la carretera y mantienen alineado el vehículo',()=>{configureScene(levelPlan(50));const middle=project(195,300,390,664),player=project(195,620,390,664);assert.notEqual(middle.x,195);assert.equal(player.x,195);configureScene();});
+test('las misiones de pocas reservas conservan el límite de poder',()=>{const s=freshState(17);for(let i=0;i<30;i++)routeReward(s,'ammo');assert.equal(s.power,levelPlan(17).powerCap);assert.equal(gatePower(s.power,'multiply',s.powerCap),s.powerCap);});
+test('el jefe acorazado reduce el daño solo durante su fase de blindaje',()=>{assert.equal(damageOnImpact({bossKind:'armored',armorActive:true},10),1.2);assert.equal(damageOnImpact({bossKind:'armored',armorActive:false},10),10);assert.equal(damageOnImpact({bossKind:'brute'},10),10);});
+
+test('los pasos estrechos reducen el espacio disponible para maniobrar',()=>{assert.equal(freshState(6).laneMin,.18);assert.equal(freshState(6).laneMax,.82);assert.equal(freshState(51).laneMin,.08);assert.equal(freshState(51).laneMax,.92);});

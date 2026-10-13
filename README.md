@@ -19,12 +19,16 @@ El servidor escucha en loopback, puerto 3000. `HOST` y `PORT` permiten adaptar e
 Disparo automático. Arrastrar en teléfono; mouse o flechas en computadora. Espacio o el botón pausa detienen la partida. Cambiar de pestaña pausa automáticamente.
 
 - **Puertas:** +2 o ×2 aumentan la cantidad de pelotitas del cañón (máximo 48). Los proyectiles también se duplican al cruzar ×2, sin esperar al vehículo; cada puerta actúa una sola vez por proyectil. Límite de 192 proyectiles generados por ráfaga.
-- **Ruta izquierda:** apuntar a la caja de munición y abrirla a tiros concede +3 pelotitas.
-- **Ruta derecha:** abrir el taller a tiros activa escudo, tiro rápido o proyectil explosivo. La mejora se agrega permanentemente al arsenal de ese navegador y puede equiparse antes de empezar otra misión. El explosivo causa daño de área; el escudo absorbe un golpe de un enemigo normal.
-- Las cajas de rutas son opcionales; ignorarlas no resta vida ni bloquea la victoria. Las barricadas de las misiones de bloqueo son objetivos obligatorios y sí causan daño si llegan al convoy.
+- **Ruta de munición:** abrir la caja celeste a tiros concede hasta +3 pelotitas, respetando el límite de la misión.
+- **Ruta de taller:** abrir la caja dorada a tiros activa escudo, tiro rápido o proyectil explosivo. La mejora se agrega permanentemente al arsenal de ese navegador y puede equiparse antes de empezar otra misión. El explosivo causa daño de área; el escudo absorbe un golpe de un enemigo normal.
+- Las cajas no quitan vida al pasar. Son opcionales salvo en Cruce de suministros, donde abrir dos forma parte del objetivo. Los bloqueos requieren romper la cantidad indicada de barricadas; si una llega al vehículo en su carril causa daño. Munición y taller pueden cambiar de costado entre misiones.
 - Hay tres vidas. Si el mutante alcanza el convoy, se pierde aunque quede un escudo.
 
-100 misiones en cinco regiones: ruta del éxodo, ciudad en cuarentena, bosque infectado, paso congelado y zona cero. Objetivos de eliminación, barricadas y mutante. Todas requieren vencer al jefe final y cumplir el objetivo mostrado. Los niveles altos empiezan con más poder y una primera puerta cercana; las velocidades se normalizan por altura de pantalla.
+100 planes de misión deterministas en cinco regiones, con diez estilos: evacuación, suministros, corredores, blindados, pinza, slalom, reservas limitadas, emboscada, marea y peaje. Cambian formaciones, horarios, carriles de puertas/rutas, obstáculos y objetivos; reintentar conserva el mismo recorrido para poder aprenderlo. Clima, luz y carretera también varían entre misiones de una región.
+
+Todas requieren derrotar a sus jefes y completar las bajas, barricadas o cajas indicadas. Las misiones de suministros requieren abrir dos cajas. Otros contenedores son opcionales. Los jefes tienen comportamientos distintos: bruto, acorazado que alterna blindaje y núcleo expuesto, cargador que cambia de carril y acelera, y enjambre de tres jefes. Los pasos estrechos limitan el espacio de maniobra. Las misiones con pocas reservas tienen topes de 16 o 24 pelotitas; el HUD muestra poder actual/límite. Los niveles altos empiezan con más poder; las velocidades se normalizan por altura.
+
+Ejemplo: 49 presenta una marea y tres jefes; 50 es Último peaje, noche con lluvia, curvas y dos barricadas obligatorias; 51 es evacuación diurna con otras formaciones y sin barricadas obligatorias. Antes de iniciar aparece el nombre y objetivo de la misión; el selector identifica su estilo.
 
 Progreso, récord, sonido, calidad y arsenal se guardan en localStorage de ese navegador; no se sincronizan entre dispositivos. El sonido está apagado por defecto, se activa con un toque y se conserva la elección. Incluye música original suave y efectos de combate.
 
@@ -38,9 +42,11 @@ Modo gráfico automático, alto y ahorro. Densidad máxima 2× y brillos reutili
 
 ## Validación
 
-16 pruebas unitarias: dificultad, puertas, proyectiles, reinicio, misiones, perspectiva, colisiones continuas, rotación, poder inicial y rutas/recompensas.
+23 pruebas unitarias: dificultad, puertas, proyectiles, reinicio, misiones, perspectiva, colisiones continuas, rotación, poder inicial, rutas/recompensas, 100 planes distintos, objetivos alcanzables, límite por misión, curvas, espacio de maniobra y blindaje del jefe.
 
-Pruebas con Chromium: escritorio y viewport táctil 390×844, inicio/pausa/continuación, selector de 100 misiones, ausencia de desbordamiento horizontal, duplicación a través de ×2, finales de misión, objetivos incumplidos, escape del jefe, barricadas y cinco regiones. Web Audio real: disparos, silencio, pausa, reanudación y persistencia. Rutas: apertura por disparos, cuatro recompensas, arsenal tras recargar, cajas ignoradas sin daño ni demora de victoria. Rotación y modo ahorro. Prueba de estrés con 576 proyectiles y 36 enemigos en Chromium del entorno; no representa FPS de un iPhone.
+Pruebas con Chromium: escritorio y viewport táctil 390×844, inicio/pausa/continuación, selector de 100 misiones, ausencia de desbordamiento horizontal, duplicación a través de ×2, finales de misión, objetivos incumplidos, escape del jefe, barricadas y cinco regiones. Web Audio real: disparos, silencio, pausa, reanudación y persistencia. Rutas: apertura por disparos, cuatro recompensas, arsenal tras recargar y objetivos de suministros. Se verificaron en navegador los niveles 49/50/51, tres jefes, fase de blindaje, límites de poder, briefing, selector y conservación del progreso previo. Rotación y modo ahorro. Prueba de estrés con 576 proyectiles y 36 enemigos en Chromium del entorno; no representa FPS de un iPhone.
+
+La simulación del motor completó las 100 misiones con una estrategia que apunta a objetivos; verifica que son alcanzables y no sustituye el balance con jugadores. También se verificaron misiones móviles representativas y las fases nuevas de blindaje.
 
 Falta prueba en iPhone real (Chrome usa WebKit en iOS), balance con jugadores y verificación del deploy publicado.
 

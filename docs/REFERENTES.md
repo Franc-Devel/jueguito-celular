@@ -44,3 +44,14 @@ Gráficos originales procedurales 2.5D. No son modelos 3D comerciales ni recurso
 - Estrés de render con 576 proyectiles y 36 enemigos; también se ejercitó poder 48, ráfaga, explosivos y dos puertas ×2 durante juego real en Chromium. Sin errores del navegador, con cantidades de partículas y luces limitadas. No permite afirmar FPS en hardware iPhone.
 
 Las pruebas de navegador se ejecutaron en esta máquina. No se verificó el deploy remoto por la política de red ni un iPhone físico.
+
+
+## Corrección de variedad de la campaña
+
+El primer generador repetía tres objetivos, carretera recta y reglas de oleadas/puertas; cambiaba sobre todo estadísticas. Desde el nivel 30 la duración quedaba en 37 segundos. Con poder 48 y ráfaga las diferencias se notaban muy poco.
+
+Ahora campaign.js define 100 planes de encuentros deterministas con diez patrones. Las huellas de formación, clases, carriles, puertas y rutas son diferentes en los 100, incluso excluyendo nombres, tiempos y estadísticas. No representan cien mundos artísticos independientes: comparten cinco regiones, seis tratamientos de carretera y los mismos recursos originales.
+
+Cambios funcionales: oleadas en V, líneas, pinzas y grupos alternados; objetivos de cajas y barricadas; rutas que cambian de costado; espacio de maniobra reducido en pasos estrechos; topes de poder por misión; jefe cargador móvil con aceleración, acorazado con fases de blindaje/núcleo y enjambre de tres jefes. Clima, iluminación y trazado reflejan el plan. Nombre/objetivos/condiciones se muestran antes y durante la partida.
+
+Verificación: 23 pruebas unitarias, simulación de 100 misiones con una estrategia que apunta a objetivos, comprobaciones móviles adicionales de blindaje y pasos estrechos; navegador móvil/escritorio con progreso previo y arsenal conservados. Los niveles 49/50/51 tienen diferencias visuales y funcionales comprobadas. Las simulaciones prueban que se pueden completar; el balance sigue siendo permisivo y requiere pruebas con personas.

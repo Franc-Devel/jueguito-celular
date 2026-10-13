@@ -1,6 +1,6 @@
 import http from 'node:http';
 import {readFile} from 'node:fs/promises';
-const files={'/':['index.html','text/html'],'/game.js':['game.js','text/javascript'],'/engine.js':['engine.js','text/javascript'],'/scenery.js':['scenery.js','text/javascript'],'/audio.js':['audio.js','text/javascript'],'/routes.js':['routes.js','text/javascript'],'/style.css':['style.css','text/css']};
+const files={'/':['index.html','text/html'],'/game.js':['game.js','text/javascript'],'/engine.js':['engine.js','text/javascript'],'/campaign.js':['campaign.js','text/javascript'],'/scenery.js':['scenery.js','text/javascript'],'/audio.js':['audio.js','text/javascript'],'/routes.js':['routes.js','text/javascript'],'/style.css':['style.css','text/css']};
 const host=process.env.HOST || '127.0.0.1';
 http.createServer(async(req,res)=>{
   const file=files[new URL(req.url,'http://local').pathname];
