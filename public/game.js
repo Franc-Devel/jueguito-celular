@@ -20,7 +20,8 @@ refreshArsenal();$('weapon').onchange=()=>{loadout=$('weapon').value;storage.set
 
 let level=unlocked,s=freshState(level),mode='menu',W=420,H=550,last=0,keys=new Set();
 configureScene(levelPlan(level));
-let quality=storage.get('pulso-quality','auto'),economy=quality==='low',slowFrames=0,activePointer=null;
+const economy=false;
+let activePointer=null;
 const glowing=new Map();
 
 function show(title,message,label='Volver a intentar',badge='UN NUEVO INTENTO'){
@@ -31,20 +32,18 @@ function resize(){
   const r=canvas.getBoundingClientRect();if(!r.width||!r.height)return;
   if(r.width!==W||r.height!==H)resizeWorld(s,W,H,r.width,r.height);
   W=r.width;H=r.height;
-  const d=Math.min(devicePixelRatio||1,quality==='low'||economy?1.25:2);
+  const d=Math.min(devicePixelRatio||1,2);
   canvas.width=Math.round(W*d);canvas.height=Math.round(H*d);ctx.setTransform(d,0,0,d,0,0);
 }
 new ResizeObserver(resize).observe(canvas);
-$('quality').value=['auto','high','low'].includes(quality)?quality:'auto';
-quality=$('quality').value;
-$('quality').onchange=()=>{quality=$('quality').value;economy=quality==='low';slowFrames=0;storage.set('pulso-quality',quality);resize();};
 function updateSound(){
-  $('sound').textContent=audio.enabled?'Sonido: sí':'Sonido: no';
+  $('sound-label').textContent=audio.enabled?'Sonido: sí':'Sonido: no';
   $('sound').setAttribute('aria-pressed',String(audio.enabled));
-  $('sound').setAttribute('aria-label',audio.enabled?'Desactivar sonido':'Activar sonido');
+  $('sound').setAttribute('aria-label',audio.enabled?'Silenciar sonido':'Activar sonido');
+  $('sound').title=audio.enabled?'Silenciar sonido':'Activar sonido';
 }
 updateSound();
-$('sound').onclick=()=>{audio.setEnabled(!audio.enabled);audio.unlock();audio.setPlaying(mode==='playing');audio.play('gate');updateSound();};
+$('sound').onclick=()=>{audio.setEnabled(!audio.enabled);audio.unlock();audio.setPlaying(mode==='playing');audio.play('gate');updateSound();if(mode==='playing')canvas.focus({preventScroll:true});};
 function start(){
   hideChoices();audio.unlock();s=freshState(level);configureScene(levelPlan(level));if(loadout!=='standard')routeReward(s,loadout);label(mission(level).name,W/2,H*.4,'#ffe5a1');
   mode='playing';audio.setPlaying(true);$('overlay').hidden=true;$('pause').textContent='II';
@@ -469,7 +468,6 @@ function drawHUD(){
 function frame(t){
   const elapsed=last?(t-last)/1000:0;last=t;
   if(mode==='playing'){
-    if(quality==='auto'&&!economy){slowFrames=elapsed>.026?slowFrames+elapsed:Math.max(0,slowFrames-elapsed);if(slowFrames>2.5){economy=true;resize();}}
     // Bounded steps keep collisions and animations stable during short frame stalls.
     let remaining=Math.min(elapsed,.12);while(remaining>0&&mode==='playing'){const dt=Math.min(remaining,1/60);update(dt);remaining-=dt;}
   }else if(mode==='won'||mode==='lost')animateEffects(Math.min(elapsed,.04));
