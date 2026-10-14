@@ -53,7 +53,7 @@ test('una puerta móvil multiplica en el punto real del cruce',()=>{const b=voll
 test('la bifurcación exige una elección y los nuevos objetivos tienen entidades suficientes',()=>{const p=levelPlan(18),s=freshState(18);s.kills=p.killTarget;s.blocks=p.requiredBlocks;s.cachesOpened=p.requiredCaches;assert.equal(missionObjectives(p,s),false);s.path='safe';assert.equal(missionObjectives(p,s),true);for(let n=1;n<=100;n++){const plan=levelPlan(n);assert.ok(plan.civilians.length>=plan.requiredRescues);assert.ok(plan.mines.length>=plan.requiredMines);assert.ok(plan.bases.length>=plan.requiredBases);assert.ok(plan.choiceAt.length>=plan.requiredMutations);}});
 
 test('la variedad de objetivos se reparte por todos los capítulos',()=>{for(let start=11;start<=91;start+=10){const plans=Array.from({length:10},(_,i)=>levelPlan(start+i));assert.ok(new Set(plans.map(p=>p.pattern)).size>=8);assert.ok(plans.filter(p=>['rescue','evolution','minefield','siege','crossfire','branch-choice','boss-rush'].includes(p.pattern)).length>=3);}for(let n=2;n<=100;n++)assert.notEqual(levelPlan(n).pattern,levelPlan(n-1).pattern);});
-test('todas las misiones después del tutorial ofrecen una decisión de mejoras',()=>{for(let n=4;n<=100;n++){const p=levelPlan(n);assert.ok(p.choiceAt.length>0);assert.ok(p.choiceAt.every(t=>t>0&&t<p.duration));}assert.equal(levelPlan(1).choiceAt.length,0);});
+test('las órdenes se desbloquean en el 8 y siguen disponibles en el resto de la campaña',()=>{for(let n=8;n<=100;n++){const p=levelPlan(n);assert.ok(p.choiceAt.length>0);assert.ok(p.choiceAt.every(t=>t>0&&t<p.duration));}for(let n=1;n<8;n++)assert.equal(levelPlan(n).choiceAt.length,0);});
 
 import {shotInterval,attackProfile,hostileSalvo,slowedSpeed} from '../public/engine.js';
 test('las ráfagas grandes recargan más lento y la mejora rápida sigue siendo útil',()=>{
@@ -79,4 +79,47 @@ test('el tramo avanzado exige más rescates y minas con presión adicional',()=>
   assert.equal(levelPlan(11).requiredRescues,3);assert.equal(levelPlan(51).requiredRescues,4);assert.ok(levelPlan(51).drones.length>0);
   assert.equal(levelPlan(13).requiredMines,3);assert.equal(levelPlan(53).requiredMines,5);assert.ok(levelPlan(53).drones.length>0);
   assert.ok(levelPlan(50).waves.length>levelPlan(10).waves.length);assert.ok(levelConfig(50).hp>12);assert.ok(levelConfig(50).boss>500);
+});
+
+import {armyClash,curseTroops,activeTroops} from '../public/engine.js';
+import {availableUnlocks,unlockAt} from '../public/progression.js';
+test('el portal ×99 genera 99 soldados reales y conserva el número de cañones',()=>{
+  const b=volley(1,100,150,390,{army:true})[0],g={id:400,kind:'multiply',value:99,x:50,w:100,y:100,previousY:100};b.y=90;
+  const copy=multiplyAtGate(b,g,150);assert.equal(b.units+copy.units,99);assert.equal(copy.units,98);assert.equal(b.group.count,99);assert.equal(activeTroops({bullets:[b,copy]}),99);
+  const e={hp:30,r:18};armyClash(copy,e);assert.equal(e.hp,0);assert.equal(copy.units,68);assert.equal(activeTroops({bullets:[b,copy]}),69);
+});
+test('se conserva la población al encadenar multiplicadores, con un límite acotado',()=>{
+  const troops=volley(48,100,150,390,{army:true}),g={id:500,kind:'multiply',value:99,x:0,w:390,y:100,previousY:100};const copies=[];
+  for(const b of troops){b.y=90;copies.push(multiplyAtGate(b,g,150));}assert.equal(activeTroops({bullets:[...troops,...copies]}),48*99);
+  for(const b of copies){b.y=60;const extra=multiplyAtGate(b,{...g,id:501,value:7,y:70,previousY:70},90);if(extra)troops.push(extra);}
+  assert.equal(troops[0].group.count,8192);assert.ok(activeTroops({bullets:[...troops,...copies]})<=8192);
+});
+test('el choque entre ejércitos produce bajas y deja marchar a los supervivientes',()=>{
+  const blue={units:10,pierceLeft:0},red={hp:4};assert.deepEqual(armyClash(blue,red),{spent:4,damage:4,survivors:6});assert.equal(red.hp,0);
+  armyClash(blue,{hp:20});assert.equal(blue.units,0);const spears={units:2,pierceLeft:2},horde={hp:6};armyClash(spears,horde);assert.equal(horde.hp,0);assert.equal(spears.units,0);
+});
+test('la maldición resta tropas una sola vez por cruce y nunca crea población negativa',()=>{
+  const b={army:true,units:3,damage:3,passed:[]};assert.equal(curseTroops(b,{id:70,loss:5}),3);assert.equal(b.units,0);assert.equal(curseTroops(b,{id:70,loss:5}),0);
+});
+test('los desbloqueos habilitan nuevas reglas hasta el nivel 100',()=>{
+  assert.equal(levelPlan(24).portalTowers.length,0);assert.equal(levelPlan(25).portalTowers[0].value,7);assert.equal(levelPlan(45).portalTowers[0].value,99);
+  assert.equal(levelPlan(69).cart,false);assert.equal(levelPlan(70).cart,true);assert.ok(levelPlan(80).warps.length);assert.equal(levelPlan(79).warps.length,0);
+  assert.ok(unlockAt(50).name.includes('curación'));assert.ok(availableUnlocks(100).length>20);assert.equal(levelPlan(100).bossSchedule.at(-1).kind,'king');assert.ok(levelPlan(100).cart);
+});
+test('las cien conquistas mantienen progreso de reglas y sorpresas reproducibles',()=>{
+  let last=0;for(let n=1;n<=100;n++){const p=levelPlan(n);assert.ok(p.army);assert.ok(p.features.length>=last);last=p.features.length;assert.deepEqual(p.surprises,levelPlan(n).surprises);assert.ok(p.surprises.every(e=>e.at<p.duration));assert.ok(p.gateSequence.every(g=>g.value>=1));if(n>=30)assert.ok(p.surprises.length>0);}
+});
+test('el carro de la corona forma parte de la supervivencia de la misión',()=>{
+  const p=levelPlan(70),s=freshState(70);for(const [key,goal] of [['kills','killTarget'],['blocks','requiredBlocks'],['cachesOpened','requiredCaches'],['rescued','requiredRescues'],['minesDefused','requiredMines'],['basesDestroyed','requiredBases'],['mutationsChosen','requiredMutations']])s[key]=p[goal];assert.equal(missionObjectives(p,s),true);s.cart.hp=0;assert.equal(missionObjectives(p,s),false);
+});
+test('las torres eligen un carril distinto al de referencia de la primera oleada',()=>{
+  for(let n=25;n<=100;n++){const p=levelPlan(n);assert.notEqual(p.portalTowers[0].lane,p.waves[0].lane);assert.ok(p.portalTowers[0].at>p.waves[0].at);}
+});
+test('los veteranos cambian la fuerza del combate sin inventar soldados',()=>{
+  assert.equal(levelPlan(30).troopRank,1);assert.equal(levelPlan(31).troopRank,2);assert.equal(levelPlan(61).troopRank,3);assert.equal(levelPlan(91).troopRank,4);
+  const b=volley(1,100,250,390,{army:true,rank:2})[0],red={hp:2};armyClash(b,red);assert.equal(red.hp,0);assert.equal(b.units,0);assert.equal(b.group.count,1);
+  assert.equal(levelPlan(3).nextUnlock.at,4);
+});
+test('la zona de fuego conserva su proporción y se mantiene frente a los cañones al rotar',()=>{
+  const s=freshState(40);s.fields.push({x:195,y:495,r:54.6,life:1});resizeWorld(s,390,550,780,330);assert.equal(s.fields[0].x,390);assert.equal(s.fields[0].y,275);assert.ok(Math.abs(s.fields[0].r-109.2)<1e-9);assert.equal(s.fields[0].life,1);
 });

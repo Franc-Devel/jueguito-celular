@@ -1,106 +1,106 @@
-# Las 100 misiones
+# Las 100 conquistas
 
-Listado generado a partir de las reglas de la campaña. Cada misión combina su objetivo principal con formaciones, rutas, mejoras y condiciones del escenario. La resistencia y los ataques aumentan con el nivel; ver [dificultad](DIFICULTAD.md).
+Campaña actual de fantasía: ejércitos, cañones y puentes. Los desbloqueos cambian reglas; los niveles intermedios presentan otras combinaciones de formaciones, objetivos, portales, caminos y eventos. No son cien colores del mismo recorrido.
 
-| Nivel | Misión | Objetivos y encuentros adicionales |
-| --- | --- | --- |
-| 01 | Convoy de evacuación | Bruto |
-| 02 | Cruce de suministros | 2 cajas · Acorazado |
-| 03 | Carrera de los infectados | Cargador |
-| 04 | Columna blindada | Acorazado · 1 elección/es de mejoras |
-| 05 | Pinza en la autopista | Cargador · 1 elección/es de mejoras |
-| 06 | Slalom del bloqueo | 3 bloqueos · Bruto · 1 elección/es de mejoras |
-| 07 | Cruce sin reservas | Acorazado · 1 elección/es de mejoras |
-| 08 | Emboscada en la curva | Cargador · 1 elección/es de mejoras |
-| 09 | Marea de infectados | Tres jefes simultáneos · 1 elección/es de mejoras |
-| 10 | Último peaje | 2 bloqueos · Bruto · 1 elección/es de mejoras |
-| 11 | Ruta de rescate | 3 civiles · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 12 | Laboratorio en marcha | Acorazado · 2 elección/es de mejoras |
-| 13 | Campo minado | 3 minas · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 14 | Asedio a las bases | 2 bases · 1 elección/es de mejoras |
-| 15 | Cruce de drones | 3 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 16 | Slalom del bloqueo | 3 bloqueos · Bruto · 1 elección/es de mejoras |
-| 17 | Cruce sin reservas | Acorazado · 1 elección/es de mejoras |
-| 18 | La bifurcación | Elegir ramal · Cargador · 1 elección/es de mejoras |
-| 19 | Marea de infectados | Tres jefes simultáneos · 1 elección/es de mejoras |
-| 20 | Tres amenazas | Cargador → Acorazado → Bruto · 1 elección/es de mejoras |
-| 21 | Columna blindada | 1 civiles · Acorazado · 1 elección/es de mejoras |
-| 22 | Ruta de rescate | 3 civiles · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 23 | Pinza en la autopista | 1 dron/es · Cargador · 1 elección/es de mejoras |
-| 24 | Campo minado | 3 minas · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 25 | Cruce de suministros | 2 cajas · 2 minas opcionales · Acorazado · 1 elección/es de mejoras |
-| 26 | Asedio a las bases | 2 bases · 1 elección/es de mejoras |
-| 27 | Laboratorio en marcha | Acorazado · 2 elección/es de mejoras |
-| 28 | Marea de infectados | 2 minas opcionales · Tres jefes simultáneos · 1 elección/es de mejoras |
-| 29 | Cruce de drones | 3 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 30 | Tres amenazas | Cargador → Acorazado → Bruto · 1 elección/es de mejoras |
-| 31 | La bifurcación | Elegir ramal · Cargador · 1 elección/es de mejoras |
-| 32 | Carrera de los infectados | 1 civiles · Cargador · 1 elección/es de mejoras |
-| 33 | Asedio a las bases | 2 bases · 1 elección/es de mejoras |
-| 34 | Slalom del bloqueo | 3 bloqueos · 1 dron/es · Bruto · 1 elección/es de mejoras |
-| 35 | Ruta de rescate | 3 civiles · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 36 | Laboratorio en marcha | Acorazado · 2 elección/es de mejoras |
-| 37 | Emboscada en la curva | 1 dron/es · Cargador · 1 elección/es de mejoras |
-| 38 | Cruce de drones | 3 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 39 | Campo minado | 3 minas · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 40 | Último peaje | 3 bloqueos · 1 dron/es · Bruto · 1 elección/es de mejoras |
-| 41 | Campo minado | 3 minas · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 42 | Columna blindada | 1 dron/es · Acorazado · 1 elección/es de mejoras |
-| 43 | Laboratorio en marcha | Acorazado · 2 elección/es de mejoras |
-| 44 | Ruta de rescate | 3 civiles · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 45 | La bifurcación | Elegir ramal · Cargador · 1 elección/es de mejoras |
-| 46 | Asedio a las bases | 2 bases · 1 elección/es de mejoras |
-| 47 | Cruce sin reservas | 2 minas opcionales · Acorazado · 1 elección/es de mejoras |
-| 48 | Cruce de drones | 3 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 49 | Marea de infectados | 1 civiles · Tres jefes simultáneos · 1 elección/es de mejoras |
-| 50 | Último peaje | 2 bloqueos · 2 minas opcionales · Bruto · 1 elección/es de mejoras |
-| 51 | Ruta de rescate | 4 civiles · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 52 | Laboratorio en marcha | Acorazado · 2 elección/es de mejoras |
-| 53 | Campo minado | 5 minas · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 54 | Asedio a las bases | 2 bases · 1 elección/es de mejoras |
-| 55 | Cruce de drones | 3 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 56 | Slalom del bloqueo | 4 bloqueos · 1 dron/es · Bruto · 1 elección/es de mejoras |
-| 57 | Cruce sin reservas | 1 civiles · Acorazado · 1 elección/es de mejoras |
-| 58 | La bifurcación | Elegir ramal · Cargador · 1 elección/es de mejoras |
-| 59 | Marea de infectados | 1 dron/es · Tres jefes simultáneos · 1 elección/es de mejoras |
-| 60 | Tres amenazas | Cargador → Acorazado → Bruto · 1 elección/es de mejoras |
-| 61 | Pinza en la autopista | 1 dron/es · Cargador · 1 elección/es de mejoras |
-| 62 | Asedio a las bases | 2 bases · 1 elección/es de mejoras |
-| 63 | Ruta de rescate | 4 civiles · 1 dron/es · Sobrevivir hasta la salida · 2 elección/es de mejoras |
-| 64 | Cruce de drones | 3 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 65 | Cruce sin reservas | 1 civiles · Acorazado · 1 elección/es de mejoras |
-| 66 | Laboratorio en marcha | Acorazado · 2 elección/es de mejoras |
-| 67 | Campo minado | 5 minas · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 68 | Columna blindada | 1 civiles · Acorazado · 1 elección/es de mejoras |
-| 69 | La bifurcación | Elegir ramal · Cargador · 1 elección/es de mejoras |
-| 70 | Tres amenazas | Cargador → Acorazado → Bruto · 1 elección/es de mejoras |
-| 71 | Laboratorio en marcha | Acorazado · 2 elección/es de mejoras |
-| 72 | Slalom del bloqueo | 4 bloqueos · 1 dron/es · Bruto · 2 elección/es de mejoras |
-| 73 | La bifurcación | Elegir ramal · Cargador · 1 elección/es de mejoras |
-| 74 | Campo minado | 5 minas · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 75 | Marea de infectados | 1 dron/es · Tres jefes simultáneos · 2 elección/es de mejoras |
-| 76 | Ruta de rescate | 4 civiles · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 77 | Asedio a las bases | 2 bases · 1 elección/es de mejoras |
-| 78 | Carrera de los infectados | 1 dron/es · Cargador · 2 elección/es de mejoras |
-| 79 | Cruce de drones | 3 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 80 | Último peaje | 3 bloqueos · 2 minas opcionales · Bruto · 1 elección/es de mejoras |
-| 81 | Asedio a las bases | 2 bases · 2 elección/es de mejoras |
-| 82 | Cruce de drones | 3 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 83 | Cruce sin reservas | 1 dron/es · Acorazado · 1 elección/es de mejoras |
-| 84 | Ruta de rescate | 4 civiles · 1 dron/es · Sobrevivir hasta la salida · 2 elección/es de mejoras |
-| 85 | Pinza en la autopista | 2 minas opcionales · Cargador · 1 elección/es de mejoras |
-| 86 | Campo minado | 5 minas · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 87 | Laboratorio en marcha | Acorazado · 2 elección/es de mejoras |
-| 88 | La bifurcación | Elegir ramal · Cargador · 1 elección/es de mejoras |
-| 89 | Columna blindada | 1 dron/es · Acorazado · 1 elección/es de mejoras |
-| 90 | Tres amenazas | Cargador → Acorazado → Bruto · 2 elección/es de mejoras |
-| 91 | Ruta de rescate | 4 civiles · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 92 | Campo minado | 5 minas · 1 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 93 | Asedio a las bases | 2 bases · 2 elección/es de mejoras |
-| 94 | Laboratorio en marcha | Acorazado · 2 elección/es de mejoras |
-| 95 | Cruce de drones | 3 dron/es · Sobrevivir hasta la salida · 1 elección/es de mejoras |
-| 96 | La bifurcación | Elegir ramal · Cargador · 1 elección/es de mejoras |
-| 97 | Emboscada en la curva | 1 dron/es · Cargador · 1 elección/es de mejoras |
-| 98 | Slalom del bloqueo | 4 bloqueos · 1 civiles · Bruto · 1 elección/es de mejoras |
-| 99 | Marea de infectados | 2 minas opcionales · Tres jefes simultáneos · 2 elección/es de mejoras |
-| 100 | Tres amenazas | Cargador → Acorazado → Bruto · 1 elección/es de mejoras |
+| Nivel | Misión | Descubrimiento | Objetivos y encuentros |
+| --- | --- | --- | --- |
+| 01 | Primer estandarte | La batería azul | Caballero |
+| 02 | El cruce de los cofres | Portales ×2 y Talleres del reino | 2 cofres · Guardián |
+| 03 | Asalto de los incursores | Incursores | Berserker |
+| 04 | La muralla de escudos | Guardias acorazados | Guardián |
+| 05 | Ataque por los flancos | Portales móviles | Berserker |
+| 06 | Puente de empalizadas | Empalizadas | 3 empalizadas · Caballero |
+| 07 | La batería sitiada | Nueva combinación de encuentros | Guardián |
+| 08 | Emboscada del desfiladero | Órdenes de batalla | Berserker · 1 orden/es |
+| 09 | Marea escarlata | La gran horda | Tríada · 1 orden/es |
+| 10 | El último bastión | Caballeros gigantes | 2 empalizadas · Caballero · 1 orden/es |
+| 11 | Rescate del reino | Civiles del reino | 3 civiles · 1 orden/es |
+| 12 | La escuela de guerra | Nueva combinación de encuentros | Guardián · 2 orden/es |
+| 13 | Puente de las bombas | Bombas del puente | 3 bombas · 1 orden/es |
+| 14 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · 1 orden/es |
+| 15 | Los magos del puente | Magos de guerra | 1 orden/es |
+| 16 | Puente de empalizadas | Nueva combinación de encuentros | 3 empalizadas · Caballero · 1 orden/es |
+| 17 | La batería sitiada | Nueva combinación de encuentros | Guardián · 1 orden/es |
+| 18 | La bifurcación del reino | Dos destinos | Elegir ramal · Berserker · 1 orden/es |
+| 19 | Marea escarlata | Nueva combinación de encuentros | Tríada · 1 orden/es |
+| 20 | Los tres caballeros | Duelos sucesivos | Berserker → Guardián → Caballero · 1 orden/es |
+| 21 | La muralla de escudos | Portales ×3 | 1 civiles · Guardián · 1 orden/es |
+| 22 | Rescate del reino | Nueva combinación de encuentros | 3 civiles · 1 orden/es |
+| 23 | Ataque por los flancos | Nueva combinación de encuentros | Berserker · 1 orden/es |
+| 24 | Puente de las bombas | Nueva combinación de encuentros | 3 bombas · 1 orden/es |
+| 25 | El cruce de los cofres | Portal ×7 | 2 cofres · Torre ×7 · Guardián · 1 orden/es |
+| 26 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×7 · 1 orden/es |
+| 27 | La escuela de guerra | Nueva combinación de encuentros | Torre ×7 · Guardián · 2 orden/es |
+| 28 | Marea escarlata | Nueva combinación de encuentros | Torre ×7 · Tríada · 1 orden/es |
+| 29 | Los magos del puente | Nueva combinación de encuentros | Torre ×7 · 1 orden/es |
+| 30 | Los tres caballeros | Contraataques | Torre ×7 · 1 evento/s durante la batalla · Berserker → Guardián → Caballero · 1 orden/es |
+| 31 | La bifurcación del reino | Veteranos del reino | Elegir ramal · Torre ×7 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
+| 32 | Asalto de los incursores | Nueva combinación de encuentros | 1 civiles · Torre ×7 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
+| 33 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×7 · 1 evento/s durante la batalla · 1 orden/es |
+| 34 | Puente de empalizadas | Nueva combinación de encuentros | 3 empalizadas · Torre ×7 · 1 evento/s durante la batalla · Caballero · 1 orden/es |
+| 35 | Rescate del reino | Portales malditos | 3 civiles · Torre ×7 · 1 evento/s durante la batalla · 1 orden/es |
+| 36 | La escuela de guerra | Nueva combinación de encuentros | Torre ×7 · 1 evento/s durante la batalla · Guardián · 2 orden/es |
+| 37 | Emboscada del desfiladero | Nueva combinación de encuentros | Torre ×7 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
+| 38 | Los magos del puente | Nueva combinación de encuentros | Torre ×7 · 1 evento/s durante la batalla · 1 orden/es |
+| 39 | Puente de las bombas | Nueva combinación de encuentros | 3 bombas · Torre ×7 · 1 evento/s durante la batalla · 1 orden/es |
+| 40 | El último bastión | Lluvia de fuego | 3 empalizadas · Torre ×7 · 1 evento/s durante la batalla · Caballero · 1 orden/es |
+| 41 | Puente de las bombas | Nueva combinación de encuentros | 3 bombas · Torre ×7 · 1 evento/s durante la batalla · 1 orden/es |
+| 42 | La muralla de escudos | Nueva combinación de encuentros | Torre ×7 · 1 evento/s durante la batalla · Guardián · 1 orden/es |
+| 43 | La escuela de guerra | Nueva combinación de encuentros | Torre ×7 · 1 evento/s durante la batalla · Guardián · 2 orden/es |
+| 44 | Rescate del reino | Nueva combinación de encuentros | 3 civiles · Torre ×7 · 1 evento/s durante la batalla · 1 orden/es |
+| 45 | La bifurcación del reino | Portal ×99 | Elegir ramal · Torre ×99 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
+| 46 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 47 | La batería sitiada | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · Guardián · 1 orden/es |
+| 48 | Los magos del puente | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 49 | Marea escarlata | Nueva combinación de encuentros | 1 civiles · Torre ×99 · 1 evento/s durante la batalla · Tríada · 1 orden/es |
+| 50 | El último bastión | Estandartes de curación | 2 empalizadas · Torre ×99 · 1 evento/s durante la batalla · Caballero · 1 orden/es |
+| 51 | Rescate del reino | Nueva combinación de encuentros | 4 civiles · Torre ×99 · 2 evento/s durante la batalla · 1 orden/es |
+| 52 | La escuela de guerra | Nueva combinación de encuentros | Torre ×99 · 2 evento/s durante la batalla · Guardián · 2 orden/es |
+| 53 | Puente de las bombas | Nueva combinación de encuentros | 5 bombas · Torre ×99 · 2 evento/s durante la batalla · 1 orden/es |
+| 54 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×99 · 2 evento/s durante la batalla · 1 orden/es |
+| 55 | Los magos del puente | Nueva combinación de encuentros | Torre ×99 · 2 evento/s durante la batalla · 1 orden/es |
+| 56 | Puente de empalizadas | Nueva combinación de encuentros | 4 empalizadas · Torre ×99 · 2 evento/s durante la batalla · Caballero · 1 orden/es |
+| 57 | La batería sitiada | Nueva combinación de encuentros | 1 civiles · Torre ×99 · 2 evento/s durante la batalla · Guardián · 1 orden/es |
+| 58 | La bifurcación del reino | Nueva combinación de encuentros | Elegir ramal · Torre ×99 · 2 evento/s durante la batalla · Berserker · 1 orden/es |
+| 59 | Marea escarlata | Nueva combinación de encuentros | Torre ×99 · 2 evento/s durante la batalla · Tríada · 1 orden/es |
+| 60 | Los tres caballeros | Portales fugaces | Torre ×99 · 2 evento/s durante la batalla · Berserker → Guardián → Caballero · 1 orden/es |
+| 61 | Ataque por los flancos | La legión azul | Torre ×99 · 2 evento/s durante la batalla · Berserker · 1 orden/es |
+| 62 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×99 · 2 evento/s durante la batalla · 1 orden/es |
+| 63 | Rescate del reino | Nueva combinación de encuentros | 4 civiles · Torre ×99 · 2 evento/s durante la batalla · 2 orden/es |
+| 64 | Los magos del puente | Nueva combinación de encuentros | Torre ×99 · 2 evento/s durante la batalla · 1 orden/es |
+| 65 | La batería sitiada | Nueva combinación de encuentros | 1 civiles · Torre ×99 · 2 evento/s durante la batalla · Guardián · 1 orden/es |
+| 66 | La escuela de guerra | Nueva combinación de encuentros | Torre ×99 · 2 evento/s durante la batalla · Guardián · 2 orden/es |
+| 67 | Puente de las bombas | Nueva combinación de encuentros | 5 bombas · Torre ×99 · 2 evento/s durante la batalla · 1 orden/es |
+| 68 | La muralla de escudos | Nueva combinación de encuentros | 1 civiles · Torre ×99 · 2 evento/s durante la batalla · Guardián · 1 orden/es |
+| 69 | La bifurcación del reino | Nueva combinación de encuentros | Elegir ramal · Torre ×99 · 2 evento/s durante la batalla · Berserker · 1 orden/es |
+| 70 | Los tres caballeros | Carro de la corona | Proteger carro · Torre ×99 · 2 evento/s durante la batalla · Berserker → Guardián → Caballero · 1 orden/es |
+| 71 | La escuela de guerra | Nueva combinación de encuentros | Torre ×99 · 2 evento/s durante la batalla · Guardián · 2 orden/es |
+| 72 | Puente de empalizadas | Nueva combinación de encuentros | 4 empalizadas · Proteger carro · Torre ×99 · 2 evento/s durante la batalla · Caballero · 2 orden/es |
+| 73 | La bifurcación del reino | Nueva combinación de encuentros | Elegir ramal · Torre ×99 · 2 evento/s durante la batalla · Berserker · 1 orden/es |
+| 74 | Puente de las bombas | Nueva combinación de encuentros | 5 bombas · Torre ×99 · 2 evento/s durante la batalla · 1 orden/es |
+| 75 | Marea escarlata | Nueva combinación de encuentros | Torre ×99 · 2 evento/s durante la batalla · Tríada · 2 orden/es |
+| 76 | Rescate del reino | Nueva combinación de encuentros | 4 civiles · Proteger carro · Torre ×99 · 2 evento/s durante la batalla · 1 orden/es |
+| 77 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×99 · 2 evento/s durante la batalla · 1 orden/es |
+| 78 | Asalto de los incursores | Nueva combinación de encuentros | Torre ×99 · 2 evento/s durante la batalla · Berserker · 2 orden/es |
+| 79 | Los magos del puente | Nueva combinación de encuentros | Torre ×99 · 2 evento/s durante la batalla · 1 orden/es |
+| 80 | El último bastión | Portales de flanqueo | 3 empalizadas · Proteger carro · Torre ×99 · Flanqueo mágico · 2 evento/s durante la batalla · Caballero · 1 orden/es |
+| 81 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · 2 orden/es |
+| 82 | Los magos del puente | Nueva combinación de encuentros | Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · 1 orden/es |
+| 83 | La batería sitiada | Nueva combinación de encuentros | Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Guardián · 1 orden/es |
+| 84 | Rescate del reino | Nueva combinación de encuentros | 4 civiles · Proteger carro · Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · 2 orden/es |
+| 85 | Ataque por los flancos | Nueva combinación de encuentros | Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Berserker · 1 orden/es |
+| 86 | Puente de las bombas | Nueva combinación de encuentros | 5 bombas · Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · 1 orden/es |
+| 87 | La escuela de guerra | Nueva combinación de encuentros | Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Guardián · 2 orden/es |
+| 88 | La bifurcación del reino | Nueva combinación de encuentros | Elegir ramal · Proteger carro · Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Berserker · 1 orden/es |
+| 89 | La muralla de escudos | Nueva combinación de encuentros | Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Guardián · 1 orden/es |
+| 90 | Los tres caballeros | Guardia real | Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Berserker → Guardián → Rey · 2 orden/es |
+| 91 | Rescate del reino | Guardia azul de élite | 4 civiles · Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · 1 orden/es |
+| 92 | Puente de las bombas | Nueva combinación de encuentros | 5 bombas · Proteger carro · Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · 1 orden/es |
+| 93 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · 2 orden/es |
+| 94 | La escuela de guerra | Nueva combinación de encuentros | Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Guardián · 2 orden/es |
+| 95 | Los magos del puente | Última resistencia | Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Rey · 1 orden/es |
+| 96 | La bifurcación del reino | Nueva combinación de encuentros | Elegir ramal · Proteger carro · Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Rey · 1 orden/es |
+| 97 | Emboscada del desfiladero | Nueva combinación de encuentros | Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Berserker · 1 orden/es |
+| 98 | Puente de empalizadas | Nueva combinación de encuentros | 4 empalizadas · 1 civiles · Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Caballero · 1 orden/es |
+| 99 | Marea escarlata | Nueva combinación de encuentros | Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Rey · 2 orden/es |
+| 100 | Los tres caballeros | La corona roja | Proteger carro · Torre ×99 · Flanqueo mágico · 3 evento/s durante la batalla · Berserker → Guardián → Rey · 1 orden/es |

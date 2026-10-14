@@ -1,5 +1,7 @@
 # Referentes y dirección visual de Pulso
 
+> Historial de la versión de carretera. La campaña actual de fantasía se documenta en [Reinos y desbloqueos](REINOS_Y_DESBLOQUEOS.md).
+
 Revisión: 13 de octubre de 2026. Este documento distingue referencias de diseño, fuentes técnicas consultadas y datos que no se pudieron verificar.
 
 ## Referentes de juego

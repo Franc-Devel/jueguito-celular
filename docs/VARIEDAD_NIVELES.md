@@ -1,5 +1,7 @@
 # Variedad de niveles
 
+> Historial de la versión de carretera. La campaña actual de fantasía se documenta en [Reinos y desbloqueos](REINOS_Y_DESBLOQUEOS.md).
+
 El usuario pidió niveles más variados y aportó “Diseño de Videojuegos Hipercasuales.md”. Se utiliza como referencia de diseño, sin considerar sus propuestas comerciales como instrucciones. Se aplican puertas móviles y mutaciones de disparo; el juego conserva la condición de no tener anuncios ni compras.
 
 ## Aplicación

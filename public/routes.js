@@ -3,7 +3,7 @@ import {clamp,levelConfig} from './engine.js';
 const TECH = [
   {route:'shield',label:'ESCUDO'},
   {route:'rapid',label:'RÁFAGA'},
-  {route:'blast',label:'EXPLOSIÓN'}
+  {route:'blast',label:'ARTILLERÍA'}
 ];
 const CYAN='#70e8f2',GOLD='#ffd685',TAU=Math.PI*2;
 
@@ -12,7 +12,7 @@ export function routeOptions(level,w,h,index=0) {
   const y=h*.28-(Math.floor(index)%3)*6;
   const common={kind:'cache',y,r:28,hp,max:hp,speed:45,opened:false};
   return [
-    {...common,route:'ammo',x:w*.22,label:'MUNICIÓN',color:CYAN},
+    {...common,route:'ammo',x:w*.22,label:'+3 CAÑONES',color:CYAN},
     {...common,...tech,x:w*.78,color:GOLD}
   ];
 }
@@ -58,50 +58,25 @@ function icon(ctx,route,x,y,r,color) {
 
 // Called inside the same place() transform as the enemies. Coordinates and collision
 // radius stay in world units; this helper only draws the destructible reward container.
-export function drawRouteTarget(ctx,e,time) {
-  const r=e.r||28,color=e.color||(e.route==='ammo'?CYAN:GOLD),progress=1-clamp(e.hp/e.max,0,1),pulse=.5+.5*Math.sin(time*4+e.x*.05);
-  ctx.save();ctx.translate(e.x,e.y);ctx.lineJoin='round';ctx.lineCap='round';ctx.lineWidth=1.5;
-  ctx.fillStyle='#04122566';ctx.beginPath();ctx.ellipse(3,r*.63,r*1.07,r*.25,0,0,TAU);ctx.fill();
-  glow(ctx,0,r*.29,r*1.35,e.route==='ammo'?'#5bdbf324':'#ffcc6c24');
-  // Cargo shell has three faces and metal corners; it remains distinct from zombies.
-  polygon(ctx,[[-r,-r*.7],[-r*.81,-r*.95],[r*.84,-r*.95],[r,-r*.7]],e.route==='ammo'?'#54949b':'#a5926b','#a8bdad');
-  polygon(ctx,[[r,-r*.7],[r*.84,-r*.95],[r*.84,r*.31],[r,r*.53]],'#273a4b','#12293d');
-  const g=ctx.createLinearGradient(-r,-r,r,r);g.addColorStop(0,e.route==='ammo'?'#517c8d':'#877966');g.addColorStop(.4,'#283f53');g.addColorStop(1,'#192c40');
-  box(ctx,-r,-r*.7,r*2,r*1.26,5,g,'#091b2c');
-  box(ctx,-r*.81,-r*.52,r*1.62,r*.77,4,'#112b43',color);
-  for(const side of [-1,1]) {
-    box(ctx,side*r*.85-r*.075,-r*.73,r*.15,r*1.25,2,'#607e8b');
-    line(ctx,side*r*.85-r*.04,-r*.66,side*r*.85-r*.04,r*.43,1,'#cadbd28c');
-    for(const yy of [-r*.6,r*.4]) {
-      ctx.fillStyle='#d1d7b8';ctx.beginPath();ctx.arc(side*r*.85,yy,1.6,0,TAU);ctx.fill();
-    }
-  }
-  icon(ctx,e.route,0,-r*.18,r*.58,color);
-  // The lower lock opens through damage: cyan/gold segments fill as bullets land.
-  box(ctx,-r*.65,r*.29,r*1.3,r*.15,2,'#081b2c');
-  for(let i=0;i<6;i++) {
-    const active=progress>=(i+1)/6;
-    box(ctx,-r*.59+i*r*.205,r*.32,r*.13,r*.075,1,active?color:'#456074');
-  }
-  if(progress>0) {
-    const crack=progress>.55;
-    line(ctx,-r*.35,-r*.53,-r*.21,-r*.34,1.3,'#bcebd283');
-    if(crack) {line(ctx,-r*.21,-r*.34,-r*.3,-r*.08,1.3,'#d4edd59c');line(ctx,r*.26,-r*.48,r*.4,-r*.25,1.3,'#d4edd59c');}
-  }
-  const light=color+(pulse>.5?'cc':'88');
-  for(const side of [-1,1]) {
-    glow(ctx,side*r*.55,-r*.88,r*.2,e.route==='ammo'?'#79e8f357':'#ffd68057');
-    box(ctx,side*r*.55-r*.1,-r*.94,r*.2,r*.1,1,light);
-  }
-  // A compact action label can be read without relying on color alone.
-  const label=e.label||({ammo:'MUNICIÓN',shield:'ESCUDO',rapid:'RÁFAGA',blast:'EXPLOSIÓN'}[e.route]||'MEJORA');
-  ctx.textAlign='center';ctx.font='800 11px system-ui';ctx.fillStyle=color;ctx.fillText(label,0,r*.98,r*2.5);
-  ctx.font='700 9px system-ui';ctx.fillStyle='#d8e8ed';ctx.fillText(e.opened?'¡ABIERTA!':'ABRÍ A TIROS',0,r*1.34,r*2.5);
-  if(e.hit>0) {
-    ctx.globalAlpha=clamp(e.hit/.12,0,1)*.65;glow(ctx,0,-r*.15,r*1.2,'#fff0bb7a');
-    line(ctx,-r*.5,-r*.45,r*.45,r*.2,2,'#fff4c3');ctx.globalAlpha=1;
-  }
-  ctx.restore();
+export function drawRouteTarget(c,e,time){
+ const portal=e.route==='portal',color=e.color||GOLD,r=e.r||28;
+ c.save();c.translate(e.x,e.y);c.lineWidth=2;
+ if(portal){
+  box(c,-31,-5,62,44,4,'#a2aec4','#6d7a96');box(c,-35,24,70,17,3,'#e9e5e4','#6d7a96');
+  const clouds=[[-24,-13,17],[-8,-28,21],[16,-24,20],[29,-6,16],[5,-5,25]];
+  for(const [x,y,rr] of clouds){c.fillStyle='#b9d2e2';c.beginPath();c.arc(x+2,y+3,rr,0,TAU);c.fill();c.fillStyle='#f2fcff';c.beginPath();c.arc(x,y,rr,0,TAU);c.fill();}
+  box(c,-7,-43,14,18,4,'#49c6ef','#297caa');box(c,-4,-46,8,8,2,'#157fa7');
+  c.textAlign='center';c.font='900 18px system-ui';c.fillStyle='#28314e';c.fillText(Math.ceil(e.hp),0,36);
+  box(c,-31,-70,62,23,4,'#ffd95e','#bc902e');c.fillStyle='#422f25';c.font='900 17px system-ui';c.fillText('×'+e.value,0,-53);
+ }else{
+  c.fillStyle='#25374c40';c.beginPath();c.ellipse(2,17,32,9,0,0,TAU);c.fill();
+  box(c,-27,-27,54,46,5,'#795647','#442f35');box(c,-27,-28,54,17,5,color,'#86653d');box(c,-25,-7,50,23,2,'#c59e75');
+  for(const x of [-19,19])box(c,x-3,-27,6,45,1,'#e6cb8d');box(c,-7,-12,14,14,3,'#453447');icon(c,e.route,0,-5,17,color);
+  c.textAlign='center';c.font='900 10px system-ui';c.fillStyle='#26304b';c.fillText(e.route==='ammo'?'+3 CAÑONES':e.label||'TALLER',0,35);
+ }
+ c.textAlign='center';c.font='800 8px system-ui';c.fillStyle='#2c3754';c.fillText('ABRÍ A TIROS',0,portal?55:49);
+ const progress=1-clamp(e.hp/e.max,0,1);box(c,-24,portal?42:21,48,4,1,'#596581');box(c,-24,portal?42:21,48*progress,4,1,color);
+ c.restore();
 }
 
 // Localized lane overlays: no changes to the road, camera, hitboxes or enemy positions.

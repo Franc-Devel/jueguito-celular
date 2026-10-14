@@ -1,5 +1,7 @@
 # Ajuste de dificultad
 
+> Historial de la versión de carretera. La campaña actual de fantasía se documenta en [Reinos y desbloqueos](REINOS_Y_DESBLOQUEOS.md).
+
 El cañón alcanzaba 48 pelotitas con demasiada facilidad y podía dispararlas cada 0,11 segundos. La resistencia de los enemigos crecía mucho menos, los jefes no disparaban y el último tramo de cada recorrido tenía poca presión. Variar la misión no corregía ese desequilibrio.
 
 ## Cambios

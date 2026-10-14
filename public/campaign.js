@@ -1,6 +1,7 @@
 // Authored mission rules. The level number changes the encounter itself, rather
 // than only making the same randomly positioned enemies stronger. All schedules
 // are deterministic so a retry lets the player learn a route.
+import {kingdomPlan} from './progression.js';
 const TYPES = [
   {pattern:'evacuation',title:'Convoy de evacuación',briefing:'Despejá las columnas y elegí una puerta para preparar el cañón.',roadStyle:'straight',weather:'clear',timeOfDay:'day',bossKind:'brute',powerCap:48,gateInterval:4.2},
   {pattern:'supply-crossing',title:'Cruce de suministros',briefing:'Abrí 2 cajas de suministros para completar la misión. Elegí munición o taller en cada cruce.',roadStyle:'split',weather:'clear',timeOfDay:'dusk',bossKind:'armored',powerCap:48,gateInterval:3.8},
@@ -175,5 +176,5 @@ function diversify(plan,act,archetype,variant){
   if(p.endMode!=='boss')p.bossSchedule=[];
   p.waves=p.waves.map(w=>({...w,kinds:[...w.kinds]}));
   p.killTarget=Math.min(p.killTarget,p.waves.reduce((n,w)=>n+w.kinds.length,0));
-  return p;
+  return kingdomPlan(p);
 }

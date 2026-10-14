@@ -158,12 +158,13 @@ export class GameAudio {
     };
     switch (name) {
       case 'fire':
-        tone(740, 320, .065, .075, 'triangle');
-        noise(.035, .035, 3400, 'highpass');
+        tone(185, 70, .11, .1, 'triangle');
+        noise(.06, .04, 1400, 'bandpass');
         break;
       case 'hit':
         noise(.075, .10, 1900, 'bandpass');
         tone(150, 75, .09, .07, 'triangle');
+        tone(720, 320, .055, .025, 'triangle');
         break;
       case 'kill':
         noise(.2, .145, 1300);

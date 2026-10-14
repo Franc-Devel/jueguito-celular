@@ -28,11 +28,11 @@ function simulate(level,pattern='objective',gear='standard',seed=1){
   const trace=[];
   for(let frame=0;frame<120*60&&['playing','upgrade'].includes(game.mode());frame++){
     const s=game.state(),w=worldWidth,h=worldHeight,time=s.time;
-    if(game.mode()==='upgrade'){const plan=bindings.levelPlan(level),priority=plan.powerCap<=24||plan.pattern==='boss-rush'?['freeze','pierce','spread','heal','bounce']:['pierce','freeze','spread','heal','bounce'];const selected=priority.find(id=>s.choiceOptions.includes(id));game.choose(selected);continue;}
+    if(game.mode()==='upgrade'){const plan=bindings.levelPlan(level),priority=plan.army?['pierce','freeze','spread','heal','bounce']:plan.powerCap<=24||plan.pattern==='boss-rush'?['freeze','pierce','spread','heal','bounce']:['pierce','freeze','spread','heal','bounce'];const selected=priority.find(id=>s.choiceOptions.includes(id));game.choose(selected);continue;}
     let aim=.5,target=null;
     const eta=e=>e.speed>0?(h-75-e.y)/(e.speed*h/550):Infinity;
     const threats=s.enemies.filter(e=>e.hp>0&&e.kind!=='cache'&&e.kind!=='mine').sort((a,b)=>eta(a)-eta(b));
-    const gates=s.gates.filter(g=>!g.used&&g.y>h-180&&g.y<h-45).sort((a,b)=>b.y-a.y);
+    const plan=bindings.levelPlan(level),gates=s.gates.filter(g=>plan.army?g.kind==='multiply'&&g.value>1&&g.y>h*.15&&g.y<h-70:!g.used&&g.y>h-180&&g.y<h-45).sort((a,b)=>(b.value??2)-(a.value??2)||b.y-a.y);
     const rewards=s.enemies.filter(e=>e.hp>0&&e.kind==='cache'&&e.y<h-160);
     if(pattern==='sweep'){aim=.5+.34*Math.sin(time*1.5);}
     else if(pattern==='center'){aim=.5;}
@@ -44,10 +44,15 @@ function simulate(level,pattern='objective',gear='standard',seed=1){
         target=rewards.find(e=>s.power<24?e.route==='ammo':e.route==='rapid')||target;
         aim=target?target.x/w:.5;
       }else aim=target?target.x/w:.5;
+      if(plan.army){
+        const imminent=target&&eta(target)<2.5,portal=s.enemies.find(e=>e.route==='portal'&&e.hp>0);
+        if(!imminent&&gates.length)aim=(gates[0].x+gates[0].w/2)/w;
+        else if(!imminent&&portal&&s.power>=4)aim=portal.x/w;
+      }
     }
     if(pattern==='objective'||pattern==='expert'){
       if(pattern==='expert'&&target?.boss){
-        const flight=Math.max(0,(h-80-target.y)/((420+target.speed)*h/550)),future=time+flight;
+        const flight=Math.max(0,(h-80-target.y)/(((plan.army?225:420)+target.speed)*h/550)),future=time+flight;
         if(target.bossKind==='charger')aim=((target.homeX??w*.5)+Math.sin(future*1.8+target.phase)*w*.25)/w;
         else if(target.bossKind==='armored')aim=((target.homeX??w*.5)+Math.sin(future*.75)*w*.12)/w;
         else if(target.bossKind==='swarm')aim=((target.homeX??target.x)+Math.sin(future*1.7+target.phase)*w*.06)/w;
@@ -77,7 +82,7 @@ function simulate(level,pattern='objective',gear='standard',seed=1){
     const delta=Math.max(-.7/60,Math.min(.7/60,aim-s.x));s.x=Math.max(s.laneMin??.08,Math.min(s.laneMax??.92,s.x+delta));
     if(Math.abs(aim-lastAim)>.2){moves++;lastAim=aim;}
     if(target&&target!==lastTarget){lastTarget=target;}
-    if(frame%600===0)trace.push({time:+time.toFixed(1),power:s.power,kills:s.kills,blocks:s.blocks,lives:s.lives});
+    if(frame%(process.env.PULSO_TRACE?60:600)===0)trace.push({time:+time.toFixed(1),power:s.power,kills:s.kills,blocks:s.blocks,lives:s.lives,...(plan.army?{aim:+aim.toFixed(2),x:+s.x.toFixed(2),recruited:s.recruited,multiplied:s.multiplied}:{} )});
     game.step(1/60);
   }
   const s=game.state();
