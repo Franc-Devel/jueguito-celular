@@ -1,54 +1,54 @@
 # Las 100 conquistas
 
-Campaña actual de fantasía: ejércitos, cañones y puentes. Los desbloqueos cambian reglas; los niveles intermedios presentan otras combinaciones de formaciones, objetivos, portales, caminos y eventos. No son cien colores del mismo recorrido.
+La campaña renovada empieza desde el nivel 1. Cada una de las diez primeras misiones incorpora otra decisión: ×2, cofres/×3, portales móviles, torre ×7, ramales, bombas, maldiciones, ×99/órdenes, rescate y fuego. Después se combinan con los objetivos y las amenazas de los cinco reinos.
 
 | Nivel | Misión | Descubrimiento | Objetivos y encuentros |
 | --- | --- | --- | --- |
-| 01 | Primer estandarte | La batería azul | Caballero |
-| 02 | El cruce de los cofres | Portales ×2 y Talleres del reino | 2 cofres · Guardián |
-| 03 | Asalto de los incursores | Incursores | Berserker |
-| 04 | La muralla de escudos | Guardias acorazados | Guardián |
-| 05 | Ataque por los flancos | Portales móviles | Berserker |
-| 06 | Puente de empalizadas | Empalizadas | 3 empalizadas · Caballero |
-| 07 | La batería sitiada | Nueva combinación de encuentros | Guardián |
-| 08 | Emboscada del desfiladero | Órdenes de batalla | Berserker · 1 orden/es |
-| 09 | Marea escarlata | La gran horda | Tríada · 1 orden/es |
-| 10 | El último bastión | Caballeros gigantes | 2 empalizadas · Caballero · 1 orden/es |
-| 11 | Rescate del reino | Civiles del reino | 3 civiles · 1 orden/es |
-| 12 | La escuela de guerra | Nueva combinación de encuentros | Guardián · 2 orden/es |
-| 13 | Puente de las bombas | Bombas del puente | 3 bombas · 1 orden/es |
-| 14 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · 1 orden/es |
-| 15 | Los magos del puente | Magos de guerra | 1 orden/es |
-| 16 | Puente de empalizadas | Nueva combinación de encuentros | 3 empalizadas · Caballero · 1 orden/es |
-| 17 | La batería sitiada | Nueva combinación de encuentros | Guardián · 1 orden/es |
-| 18 | La bifurcación del reino | Dos destinos | Elegir ramal · Berserker · 1 orden/es |
-| 19 | Marea escarlata | Nueva combinación de encuentros | Tríada · 1 orden/es |
-| 20 | Los tres caballeros | Duelos sucesivos | Berserker → Guardián → Caballero · 1 orden/es |
-| 21 | La muralla de escudos | Portales ×3 | 1 civiles · Guardián · 1 orden/es |
-| 22 | Rescate del reino | Nueva combinación de encuentros | 3 civiles · 1 orden/es |
-| 23 | Ataque por los flancos | Nueva combinación de encuentros | Berserker · 1 orden/es |
-| 24 | Puente de las bombas | Nueva combinación de encuentros | 3 bombas · 1 orden/es |
-| 25 | El cruce de los cofres | Portal ×7 | 2 cofres · Torre ×7 · Guardián · 1 orden/es |
-| 26 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×7 · 1 orden/es |
-| 27 | La escuela de guerra | Nueva combinación de encuentros | Torre ×7 · Guardián · 2 orden/es |
-| 28 | Marea escarlata | Nueva combinación de encuentros | Torre ×7 · Tríada · 1 orden/es |
-| 29 | Los magos del puente | Nueva combinación de encuentros | Torre ×7 · 1 orden/es |
-| 30 | Los tres caballeros | Contraataques | Torre ×7 · 1 evento/s durante la batalla · Berserker → Guardián → Caballero · 1 orden/es |
-| 31 | La bifurcación del reino | Veteranos del reino | Elegir ramal · Torre ×7 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
-| 32 | Asalto de los incursores | Nueva combinación de encuentros | 1 civiles · Torre ×7 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
-| 33 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×7 · 1 evento/s durante la batalla · 1 orden/es |
-| 34 | Puente de empalizadas | Nueva combinación de encuentros | 3 empalizadas · Torre ×7 · 1 evento/s durante la batalla · Caballero · 1 orden/es |
-| 35 | Rescate del reino | Portales malditos | 3 civiles · Torre ×7 · 1 evento/s durante la batalla · 1 orden/es |
-| 36 | La escuela de guerra | Nueva combinación de encuentros | Torre ×7 · 1 evento/s durante la batalla · Guardián · 2 orden/es |
-| 37 | Emboscada del desfiladero | Nueva combinación de encuentros | Torre ×7 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
-| 38 | Los magos del puente | Nueva combinación de encuentros | Torre ×7 · 1 evento/s durante la batalla · 1 orden/es |
-| 39 | Puente de las bombas | Nueva combinación de encuentros | 3 bombas · Torre ×7 · 1 evento/s durante la batalla · 1 orden/es |
-| 40 | El último bastión | Lluvia de fuego | 3 empalizadas · Torre ×7 · 1 evento/s durante la batalla · Caballero · 1 orden/es |
-| 41 | Puente de las bombas | Nueva combinación de encuentros | 3 bombas · Torre ×7 · 1 evento/s durante la batalla · 1 orden/es |
-| 42 | La muralla de escudos | Nueva combinación de encuentros | Torre ×7 · 1 evento/s durante la batalla · Guardián · 1 orden/es |
-| 43 | La escuela de guerra | Nueva combinación de encuentros | Torre ×7 · 1 evento/s durante la batalla · Guardián · 2 orden/es |
-| 44 | Rescate del reino | Nueva combinación de encuentros | 3 civiles · Torre ×7 · 1 evento/s durante la batalla · 1 orden/es |
-| 45 | La bifurcación del reino | Portal ×99 | Elegir ramal · Torre ×99 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
+| 01 | Primer estandarte | La batería azul y Portales ×2 | Caballero |
+| 02 | El cruce de los cofres | Talleres del reino y Portales ×3 | 2 cofres · Guardián |
+| 03 | Asalto de los incursores | Incursores y Portales móviles | Berserker |
+| 04 | La muralla de escudos | Guardias acorazados y Portal ×7 | Torre ×7 · Guardián |
+| 05 | Ataque por los flancos | Dos destinos | Elegir ramal · Torre ×7 · Berserker |
+| 06 | Puente de empalizadas | Empalizadas y Bombas del puente | 3 empalizadas · 1 bombas · Torre ×7 · Caballero |
+| 07 | La batería sitiada | Portales malditos | Torre ×7 · 1 evento/s durante la batalla · Guardián |
+| 08 | Emboscada del desfiladero | Órdenes de batalla y Portal ×99 | Torre ×99 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
+| 09 | Marea escarlata | La gran horda y Civiles del reino | 1 civiles · Torre ×99 · 1 evento/s durante la batalla · Tríada · 1 orden/es |
+| 10 | El último bastión | Caballeros gigantes y Lluvia de fuego | 2 empalizadas · Torre ×99 · 1 evento/s durante la batalla · Caballero · 1 orden/es |
+| 11 | Rescate del reino | Caravana de rescate | 3 civiles · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 12 | La escuela de guerra | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · Guardián · 2 orden/es |
+| 13 | Puente de las bombas | Nueva combinación de encuentros | 3 bombas · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 14 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 15 | Los magos del puente | Magos de guerra | Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 16 | Puente de empalizadas | Nueva combinación de encuentros | 3 empalizadas · Torre ×99 · 1 evento/s durante la batalla · Caballero · 1 orden/es |
+| 17 | La batería sitiada | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · Guardián · 1 orden/es |
+| 18 | La bifurcación del reino | Nueva combinación de encuentros | Elegir ramal · Torre ×99 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
+| 19 | Marea escarlata | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · Tríada · 1 orden/es |
+| 20 | Los tres caballeros | Duelos sucesivos | Torre ×99 · 1 evento/s durante la batalla · Berserker → Guardián → Caballero · 1 orden/es |
+| 21 | La muralla de escudos | Nueva combinación de encuentros | 1 civiles · Torre ×99 · 1 evento/s durante la batalla · Guardián · 1 orden/es |
+| 22 | Rescate del reino | Nueva combinación de encuentros | 3 civiles · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 23 | Ataque por los flancos | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
+| 24 | Puente de las bombas | Nueva combinación de encuentros | 3 bombas · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 25 | El cruce de los cofres | Nueva combinación de encuentros | 2 cofres · Torre ×99 · 1 evento/s durante la batalla · Guardián · 1 orden/es |
+| 26 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 27 | La escuela de guerra | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · Guardián · 2 orden/es |
+| 28 | Marea escarlata | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · Tríada · 1 orden/es |
+| 29 | Los magos del puente | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 30 | Los tres caballeros | Contraataques | Torre ×99 · 1 evento/s durante la batalla · Berserker → Guardián → Caballero · 1 orden/es |
+| 31 | La bifurcación del reino | Veteranos del reino | Elegir ramal · Torre ×99 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
+| 32 | Asalto de los incursores | Nueva combinación de encuentros | 1 civiles · Torre ×99 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
+| 33 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 34 | Puente de empalizadas | Nueva combinación de encuentros | 3 empalizadas · Torre ×99 · 1 evento/s durante la batalla · Caballero · 1 orden/es |
+| 35 | Rescate del reino | Nueva combinación de encuentros | 3 civiles · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 36 | La escuela de guerra | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · Guardián · 2 orden/es |
+| 37 | Emboscada del desfiladero | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
+| 38 | Los magos del puente | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 39 | Puente de las bombas | Nueva combinación de encuentros | 3 bombas · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 40 | El último bastión | Nueva combinación de encuentros | 3 empalizadas · Torre ×99 · 1 evento/s durante la batalla · Caballero · 1 orden/es |
+| 41 | Puente de las bombas | Nueva combinación de encuentros | 3 bombas · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 42 | La muralla de escudos | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · Guardián · 1 orden/es |
+| 43 | La escuela de guerra | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · Guardián · 2 orden/es |
+| 44 | Rescate del reino | Nueva combinación de encuentros | 3 civiles · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
+| 45 | La bifurcación del reino | Nueva combinación de encuentros | Elegir ramal · Torre ×99 · 1 evento/s durante la batalla · Berserker · 1 orden/es |
 | 46 | Asedio a las fortalezas | Nueva combinación de encuentros | 2 fortalezas · Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |
 | 47 | La batería sitiada | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · Guardián · 1 orden/es |
 | 48 | Los magos del puente | Nueva combinación de encuentros | Torre ×99 · 1 evento/s durante la batalla · 1 orden/es |

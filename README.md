@@ -7,6 +7,7 @@ Juego web original de cañones azules, ejércitos, caballeros gigantes y cien co
 Arrastrá para mover los cañones en teléfono; usá mouse o flechas en computadora. Los soldados se reclutan automáticamente. Espacio o el botón pausa detienen la batalla; cambiar de pestaña pausa el juego.
 
 - Las puertas azules suman cañones. Los portales multiplican las tropas que pasan por ellos, sin cambiar la batería: ×2, ×3, ×7 y ×99.
+- Desde el primer nivel hay reclutamiento y ×2; ×3 llega en el 2, la torre ×7 en el 4 y ×99 en el 8.
 - Los soldados azules y rojos chocan con bajas reales; los supervivientes siguen marchando. Veteranos y lanceros aumentan la fuerza de cada soldado.
 - Los cofres se abren a tiros: refuerzos, escudo, ráfaga o artillería. Las torres doradas abren portales potentes al destruirlas.
 - El juego introduce reglas nuevas: empalizadas, rescates, bombas, magos, ramales, duelos, maldiciones, fuego, curadores, portales fugaces, carro de la corona, flanqueos y guardia real. Los niveles intermedios combinan formaciones, caminos, objetivos y sorpresas.
@@ -14,7 +15,7 @@ Arrastrá para mover los cañones en teléfono; usá mouse o flechas en computad
 
 [Desbloqueos y reglas](docs/REINOS_Y_DESBLOQUEOS.md) · [Las 100 conquistas](docs/CAMPANA_100.md).
 
-Progreso, arsenal, récord, sonido y calidad se guardan en este navegador y se conservan desde la versión anterior. No se sincronizan entre dispositivos. El mapa muestra ✦ cuando hay una nueva mecánica; al elegir una misión se muestra su explicación antes de empezar.
+Esta actualización reinicia el progreso anterior al nivel 1, el récord a 0 y el arsenal al cañón estándar, una sola vez por navegador. Después, las partidas nuevas se guardan normalmente. Sonido y calidad conservan su configuración. No se sincronizan entre dispositivos. El mapa muestra ✦ cuando hay una nueva mecánica; al elegir una misión se muestra su explicación antes de empezar.
 
 ## Desarrollo y Netlify
 
@@ -42,7 +43,7 @@ Calidad automática, alta y ahorro, densidad máxima 2×, efectos y voces limita
 
 ## Validación
 
-46 pruebas de reglas y campaña; comprobación sintáctica. Chromium verifica combate, portales, eventos, desbloqueos, progresión y diseños móvil, escritorio y horizontal. La simulación recorre las cien misiones y registra victorias y derrotas; no sustituye el balance con personas. Falta prueba en iPhone físico y comprobación del deploy publicado.
+52 pruebas de reglas y campaña; comprobación sintáctica. Chromium verifica combate, portales, eventos, desbloqueos, progresión y diseños móvil, escritorio y horizontal. La simulación recorre las cien misiones y registra victorias y derrotas; no sustituye el balance con personas. Falta prueba en iPhone físico y comprobación del deploy publicado.
 
 ## Acceso privado
 

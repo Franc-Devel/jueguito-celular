@@ -5,10 +5,12 @@ import {mission,project,place,road,redArmy,vehicle,configureScene,blueTroops} fr
 import {clamp,levelConfig,freshState,volley,multiplyAtGate,projectileHit,resizeWorld,routeReward,damageOnImpact,MUTATIONS,applyMutation,missionObjectives,attackProfile,hostileSalvo,slowedSpeed,armyShotInterval,armyClash,curseTroops,activeTroops} from './engine.js';
 import {routeOptions,drawFork,drawRouteTarget} from './routes.js';
 import {GameAudio} from './audio.js';
+import {createCampaignStorage} from './save.js';
 
 const $=id=>document.getElementById(id),canvas=$('canvas'),ctx=canvas.getContext('2d');
 const audio=new GameAudio(),reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
-const storage={get(key,fallback){try{return localStorage.getItem(key)??fallback;}catch{return fallback;}},set(key,value){try{localStorage.setItem(key,String(value));}catch{}}};
+let persistent;try{persistent=globalThis.localStorage;}catch{}
+const storage=createCampaignStorage(persistent);
 let unlocked=clamp(Number(storage.get('pulso-unlocked',1))||1,1,100);
 let record=Number(storage.get('pulso-record',0))||0;
 let unlockedGear=[];try{const saved=JSON.parse(storage.get('pulso-gear','[]'));if(Array.isArray(saved))unlockedGear=saved.filter(x=>['shield','rapid','blast'].includes(x));}catch{}
