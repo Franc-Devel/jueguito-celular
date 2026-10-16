@@ -15,7 +15,7 @@ Arrastrá para mover los cañones en teléfono; usá mouse o flechas en computad
 
 [Desbloqueos y reglas](docs/REINOS_Y_DESBLOQUEOS.md) · [Las 100 conquistas](docs/CAMPANA_100.md).
 
-Esta actualización reinicia el progreso anterior al nivel 1, el récord a 0 y el arsenal al cañón estándar, una sola vez por navegador. Después, las partidas nuevas se guardan normalmente. El sonido conserva su configuración. Los gráficos quedan siempre en calidad alta. No se sincronizan entre dispositivos. El mapa muestra ✦ cuando hay una nueva mecánica; al elegir una misión se muestra su explicación antes de empezar.
+El nivel desbloqueado, el récord y el arsenal se guardan por navegador. Esta mejora de legibilidad conserva las partidas existentes; no cambia la versión de guardado ni vuelve a aplicar el reinicio de la campaña anterior. El sonido conserva su configuración. Los gráficos quedan siempre en calidad alta. No se sincronizan entre dispositivos. El mapa muestra ✦ cuando hay una nueva mecánica; al elegir una misión se muestra su explicación antes de empezar.
 
 ## Desarrollo y Netlify
 
@@ -37,7 +37,7 @@ PULSO_PATTERNS=objective,expert PULSO_GEARS=standard node scripts/balance.mjs 1 
 
 ## Arte y rendimiento
 
-Arte original procedural 2.5D: cinco reinos, puentes de piedra, agua, castillos, banderas, nieve, cañones múltiples, tropas animadas, armaduras, caballeros, cofres y portales. Los soldados usan sprites generados y reutilizados localmente. Las formaciones grandes conservan su población de combate y usan muestras visuales cuando superan el presupuesto de dibujo; no se simulan miles de agentes independientes. El HUD muestra las tropas vivas.
+Arte original procedural 2.5D: cinco reinos, puentes de piedra, agua, castillos, banderas, nieve, cañones múltiples, tropas animadas, armaduras, caballeros, cofres y portales. Los soldados usan sprites generados y reutilizados localmente. Las formaciones grandes conservan su población de combate y usan muestras visuales cuando superan el presupuesto de dibujo; no se simulan miles de agentes independientes. El HUD muestra las tropas vivas. Las tropas se dibujan con un mínimo de unos 26 px de alto incluso al fondo, los cañones crecen y la batería se acomoda al acercarse a los bordes. Portales y recompensas tienen rótulos mayores; misión, objetivos y mejoras se leen en un panel de alto contraste con texto que puede ocupar varias líneas. Las cantidades grandes usan k/M en el HUD, conservando el total real en combate. Esta mejora visual conserva la versión de guardado, los niveles, el récord y el arsenal.
 
 Calidad alta fija, densidad máxima 2×, efectos y voces limitados. Las preferencias anteriores de calidad automática o ahorro ya no reducen el detalle. Sonidos originales de cañones, choque, portales y batalla mediante Web Audio; sonido apagado por defecto y botón de altavoz junto a pausa para activarlo o silenciarlo, con preferencia guardada.
 
@@ -45,7 +45,7 @@ En celular y pantallas táctiles, el juego ocupa todo el viewport disponible, si
 
 ## Validación
 
-52 pruebas de reglas y campaña; comprobación sintáctica. Chromium verifica combate, portales, eventos, desbloqueos y progresión. Para este diseño se comprobaron 375×667, 390×844, 844×390, 1280×900 y 1920×1080: área de juego, densidad alta, arrastre, mouse, flechas, pausa, órdenes, activación/silencio del audio y persistencia del progreso. La simulación recorre las cien misiones y registra victorias y derrotas; no sustituye el balance con personas. Falta prueba en iPhone físico y comprobación del deploy publicado.
+52 pruebas de reglas y campaña; comprobación sintáctica. Chromium verifica combate, portales, eventos, desbloqueos y progresión. Para este diseño se comprobaron 320×568, 375×667, 390×844, 844×390, 1280×900 y 1920×1080: área de juego, densidad alta, arrastre, mouse, flechas, pausa, órdenes, activación/silencio del audio y persistencia del progreso. Una partida guardada en nivel 50 conserva su nivel, récord y arsenal al recargar. La simulación recorre las cien misiones y registra victorias y derrotas; no sustituye el balance con personas. Falta prueba en iPhone físico y comprobación del deploy publicado.
 
 ## Acceso privado
 
